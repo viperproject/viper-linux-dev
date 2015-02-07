@@ -1,0 +1,8 @@
+#!/bin/bash
+
+docker run \
+  --rm \
+  -ti \
+  -v "$(pwd):/home/developer/source" \
+  vakaras/viper-build:0.0.1 \
+  /bin/bash -c "cd /home/developer/source/silicon && sbt -no-share $@"
