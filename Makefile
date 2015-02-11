@@ -8,5 +8,5 @@ eclipse: workspace
 	$(ECLIPSE)
 
 workspace:
-	$(SBT) eclipse skip-parents=false
+	$(SBT) 'eclipse skip-parents=false'
 	mkdir -p workspace
