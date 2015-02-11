@@ -1,9 +1,15 @@
 #!/bin/bash
 
-docker run \
-  --rm \
-  -ti \
-  -v "$(pwd):/home/developer/source" \
-  -v "$(readlink -f "$1"):/home/developer/file.sil" \
-  vakaras/viper-build:0.0.1 \
-  /bin/bash -c "cd /home/developer/source/silicon && sbt -no-share 'run /home/developer/file.sil'"
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+SILVER_FILE="$(readlink -f "$1")"
+DOCKER_SILVER_FILE="${DOCKER_HOME}/file.sil"
+
+SBT="${DOCKER_SBT} '$@'"
+
+${DOCKER_COMMAND} \
+  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  -v "${SILVER_FILE}:${DOCKER_SILVER_FILE}" \
+  "${DOCKER_IMGAGE}" \
+  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/silicon && ${SBT}"
