@@ -1,8 +1,11 @@
 #!/bin/bash
 
-docker run \
-  --rm \
-  -ti \
-  -v "$(pwd):/home/developer/source" \
-  vakaras/viper-build:0.0.1 \
-  /bin/bash -c "cd /home/developer/source/silicon && sbt -no-share '$@'"
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+SBT="${DOCKER_SBT} '$@'"
+
+${DOCKER_COMMAND} \
+  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  "${DOCKER_IMGAGE}" \
+  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/silicon && ${SBT}"
