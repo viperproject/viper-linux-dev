@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+CHALICE_FILE="$(readlink -f "$1")"
+SILVER_FILE="$(readlink -f "$2")"
+DOCKER_CHALICE_FILE="${DOCKER_HOME}/file.chalice"
+DOCKER_SILVER_FILE="${DOCKER_HOME}/file.sil"
+
+SBT="${DOCKER_SBT} 'run ${DOCKER_CHALICE_FILE} ${DOCKER_SILVER_FILE}'"
+
+touch "$SILVER_FILE"
+
+${DOCKER_COMMAND} \
+  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  -v "${CHALICE_FILE}:${DOCKER_CHALICE_FILE}" \
+  -v "${SILVER_FILE}:${DOCKER_SILVER_FILE}" \
+  "${DOCKER_IMGAGE}" \
+  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/chalice2silver && ${SBT}"
