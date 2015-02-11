@@ -6,7 +6,7 @@ source "$DIR/settings.sh"
 SILVER_FILE="$(readlink -f "$1")"
 DOCKER_SILVER_FILE="${DOCKER_HOME}/file.sil"
 
-SBT="${DOCKER_SBT} '$@'"
+SBT="${DOCKER_SBT} 'run ${DOCKER_SILVER_FILE}'"
 
 ${DOCKER_COMMAND} \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
