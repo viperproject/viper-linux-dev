@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+${DOCKER_COMMAND} \
+  -e DISPLAY=$DISPLAY \
+  -v /tmp/.X11-unix:/tmp/.X11-unix \
+  -v "$(pwd)/workspace:${DOCKER_HOME}" \
+  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  "${DOCKER_IMGAGE}"

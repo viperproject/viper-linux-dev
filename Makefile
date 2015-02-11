@@ -1,14 +1,13 @@
 SBT=bin/sbt
-ECLIPSE=bin/eclipse
+IDE=bin/ide
 
 test:
 	$(SBT) test
 
-eclipse: workspace
-	$(ECLIPSE)
+ide: workspace
+	$(IDE)
 
 workspace:
-	$(SBT) 'eclipse skip-parents=false'
 	mkdir -p workspace
 
 clean: clean-workspace clean-silicon clean-silicon-common clean-silver
@@ -19,7 +18,11 @@ clean-workspace:
 
 clean-silicon:
 	rm -rf \
-		silicon/tmp silicon/target silicon/.settings
+		silicon/tmp silicon/target silicon/.settings \
+		silicon/.classpath silicon/.project \
+		silicon/.idea silicon/.idea_modules \
+		silicon/project/target silicon/project/.ivy silicon/project/.boot \
+		silicon/project/project silicon/projectFilesBackup
 
 clean-silicon-common:
 	rm -rf \
@@ -29,4 +32,4 @@ clean-silicon-common:
 clean-silver:
 	rm -rf \
 		silver/target silver/.classpath silver/.project silver/.settings \
-		silver/project/target silver/project/project
+		silver/project/target silver/project/project silver/.cache silver/.idea
