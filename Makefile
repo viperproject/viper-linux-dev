@@ -1,6 +1,8 @@
 SBT=bin/sbt
 IDE=bin/ide
 
+.PHONY: docs
+
 test:
 	$(SBT) test
 
@@ -9,6 +11,12 @@ ide: workspace
 
 workspace:
 	mkdir -p workspace
+
+docs:
+	cd docs/silver && make
+
+doctest: docs/silver/build/code
+	bin/doctest docs/silver/build/code
 
 clean: clean-workspace clean-silicon clean-silicon-common clean-silver
 
