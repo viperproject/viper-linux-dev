@@ -6,7 +6,7 @@ source "$DIR/settings.sh"
 TEST_DIR="$(readlink -f "$1")"
 DOCKER_TEST_DIR="${DOCKER_HOME}/test"
 
-SBT="${DOCKER_SBT} 'test-only -- -Dpath=${DOCKER_TEST_DIR}'"
+SBT="${DOCKER_SBT} 'test-only viper.silicon.tests.SiliconDocTests -- -Dpath=${DOCKER_TEST_DIR}'"
 
 ${DOCKER_COMMAND} \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
