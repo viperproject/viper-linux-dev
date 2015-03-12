@@ -3,15 +3,21 @@ SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
 SILVER_HG_URL=https://bitbucket.org/viperproject/silver
 CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
 CHALICE_HG_URL=https://bitbucket.org/viperproject/ychalice
-SBT=bin/sbt
+SBT_SILVER=bin/sbt-silicon
+SBT_CHALICE2SILVER=bin/sbt-chalice2silver
 IDE=bin/ide
 IDE_PREREQUISITES=workspace/source $(SUBREPOS)
 SUBREPOS=docker-viper silicon silver chalice2silver chalice
 
 .PHONY: docs
 
-test: $(SUBREPOS)
-	$(SBT) test
+test: test_silver test_chalice2silver
+
+test_silver: $(SUBREPOS)
+	$(SBT_SILVER) test
+
+test_chalice2silver: $(SUBREPOS)
+	$(SBT_CHALICE2SILVER) test
 
 ide: $(IDE_PREREQUISITES)
 	$(IDE)

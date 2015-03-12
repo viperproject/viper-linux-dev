@@ -1,0 +1,11 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+SBT="${DOCKER_SBT} '$@'"
+
+${DOCKER_COMMAND} \
+  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  "${DOCKER_IMGAGE}" \
+  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/chalice2silver && ${SBT}"
