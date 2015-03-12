@@ -22,7 +22,7 @@ Clone repository:
 
 .. code-block:: bash
   
-  hg clone https://vakaras@bitbucket.org/vakaras/viper-dev
+  hg clone https://bitbucket.org/vakaras/viper-dev
 
 Build Docker image:
 
