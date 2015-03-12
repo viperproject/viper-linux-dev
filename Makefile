@@ -28,6 +28,9 @@ workspace/source:
 docs:
 	cd docs/silver && make
 
+build_image: $(SUBREPOS)
+	cd docker-viper/ && ./build
+
 doctest: docs/silver/build/code
 	bin/doctest docs/silver/build/code
 

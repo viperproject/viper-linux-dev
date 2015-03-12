@@ -24,6 +24,12 @@ Clone repository:
   
   hg clone https://vakaras@bitbucket.org/vakaras/viper-dev
 
+Build Docker image:
+
+.. code-block:: bash
+
+  make build_image
+
 Run tests:
 
 .. code-block:: bash
