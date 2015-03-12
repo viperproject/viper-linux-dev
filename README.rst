@@ -1,8 +1,19 @@
+=============================
 Viper Development Environment
 =============================
 
 An environment for developing
 `Viper <https://bitbucket.org/viperproject/>`_ on Linux.
+
+Requirements
+============
+
++   `Docker <https://docker.com/>`_
+
+    +   Installation instructions for Ubuntu can be found
+        `here <https://docs.docker.com/installation/ubuntulinux/>`_.
+    +   How to use docker without sudo can be found
+        `here <https://docs.docker.com/installation/ubuntulinux/#giving-non-root-access>`_.
 
 Quick start
 ===========
