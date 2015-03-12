@@ -1,12 +1,18 @@
+DOCKER_VIPER_HG_URL=https://bitbucket.org/vakaras/docker-viper-dev
+SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
+SILVER_HG_URL=https://bitbucket.org/viperproject/silver
+CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
+CHALICE_HG_URL=https://bitbucket.org/viperproject/ychalice
 SBT=bin/sbt
 IDE=bin/ide
+SUBREPOS=docker-viper silicon silver chalice2silver chalice
 
 .PHONY: docs
 
-test:
+test: $(SUBREPOS)
 	$(SBT) test
 
-ide: workspace
+ide: workspace $(SUBREPOS)
 	$(IDE)
 
 workspace:
@@ -17,6 +23,21 @@ docs:
 
 doctest: docs/silver/build/code
 	bin/doctest docs/silver/build/code
+
+docker-viper:
+	hg clone $(DOCKER_VIPER_HG_URL) docker-viper
+
+silicon:
+	hg clone $(SILICON_HG_URL) silicon
+
+silver:
+	hg clone $(SILVER_HG_URL) silver
+
+chalice:
+	hg clone $(CHALICE_HG_URL) chalice
+
+chalice2silver:
+	hg clone $(CHALICE2SILVER_HG_URL) chalice2silver
 
 clean: clean-workspace clean-silicon clean-silicon-common clean-silver
 
