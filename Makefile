@@ -5,6 +5,7 @@ CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
 CHALICE_HG_URL=https://bitbucket.org/viperproject/ychalice
 SBT=bin/sbt
 IDE=bin/ide
+IDE_PREREQUISITES=workspace/source $(SUBREPOS)
 SUBREPOS=docker-viper silicon silver chalice2silver chalice
 
 .PHONY: docs
@@ -12,11 +13,11 @@ SUBREPOS=docker-viper silicon silver chalice2silver chalice
 test: $(SUBREPOS)
 	$(SBT) test
 
-ide: workspace $(SUBREPOS)
+ide: $(IDE_PREREQUISITES)
 	$(IDE)
 
-workspace:
-	mkdir -p workspace
+workspace/source:
+	mkdir -p workspace/source
 
 docs:
 	cd docs/silver && make
