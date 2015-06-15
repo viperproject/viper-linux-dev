@@ -8,4 +8,4 @@ ${DOCKER_COMMAND} \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v "$(pwd)/workspace:${DOCKER_HOME}" \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
-  "${DOCKER_IMGAGE}"
+  "${DOCKER_IMAGE}"

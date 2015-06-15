@@ -7,5 +7,7 @@ SBT="${DOCKER_SBT} '$@'"
 
 ${DOCKER_COMMAND} \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  -e "BOOGIE_EXE=/usr/bin/boogie" \
+  -e "Z3_EXE=/usr/bin/z3" \
   "${DOCKER_IMAGE}" \
-  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/chalice2silver && ${SBT}"
+  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/carbon && ${SBT}"

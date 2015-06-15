@@ -16,5 +16,5 @@ ${DOCKER_COMMAND} \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
   -v "${CHALICE_FILE}:${DOCKER_CHALICE_FILE}" \
   -v "${SILVER_FILE}:${DOCKER_SILVER_FILE}" \
-  "${DOCKER_IMGAGE}" \
+  "${DOCKER_IMAGE}" \
   /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/chalice2silver && ${SBT}"
