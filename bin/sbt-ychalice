@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+echo "cd ${DOCKER_SOURCE_DIR}/ychalice && ${DOCKER_SBT}"
+echo "run /boogieOpt:nologo /boogieOpt:noinfer /boogie:/usr/bin/boogie tests/general-tests/quantifiers.chalice"
+echo "run -boogie:/usr/bin/boogie tests/general-tests/quantifiers.chalice"
+
+${DOCKER_COMMAND} \
+  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
+  "${DOCKER_IMAGE}" \
+  /bin/bash
