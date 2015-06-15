@@ -3,13 +3,12 @@ SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
 CARBON_HG_URL=https://bitbucket.org/viperproject/carbon
 SILVER_HG_URL=https://bitbucket.org/viperproject/silver
 CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
-CHALICE_HG_URL=https://bitbucket.org/viperproject/ychalice
 SBT_SILICON=bin/sbt-silicon
 SBT_CARBON=bin/sbt-carbon
 SBT_CHALICE2SILVER=bin/sbt-chalice2silver
 IDE=bin/ide
 IDE_PREREQUISITES=$(SUBREPOS)
-SUBREPOS=docker-viper silicon carbon silver chalice2silver chalice
+SUBREPOS=docker-viper silicon carbon silver chalice2silver
 
 .PHONY: docs
 
@@ -57,9 +56,6 @@ carbon:
 
 silver:
 	hg clone $(SILVER_HG_URL) silver
-
-chalice:
-	hg clone $(CHALICE_HG_URL) chalice
 
 chalice2silver:
 	hg clone $(CHALICE2SILVER_HG_URL) chalice2silver
