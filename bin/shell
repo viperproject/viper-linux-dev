@@ -5,6 +5,8 @@ source "$DIR/settings.sh"
 
 ${DOCKER_COMMAND} \
   -e DISPLAY=$DISPLAY \
+  -e "BOOGIE_EXE=/usr/bin/boogie" \
+  -e "Z3_EXE=/usr/bin/z3" \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v "$(pwd)/workspace:${DOCKER_HOME}" \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
