@@ -68,7 +68,7 @@ chalice:
 ychalice:
 	hg clone $(YCHALICE_HG_URL) ychalice
 
-clean: clean-workspace clean-silicon clean-silicon-common clean-silver
+clean: clean-workspace clean-silicon clean-carbon clean-silicon-common clean-silver
 	rm -rf .cache
 
 clean-workspace:
@@ -87,6 +87,14 @@ clean-silicon-common:
 	rm -rf \
 		silicon/common/target silicon/common/.settings \
 		silicon/common/.cache silicon/common/.classpath silicon/common/.project
+
+clean-carbon:
+	rm -rf \
+		carbon/tmp carbon/target carbon/.settings \
+		carbon/.classpath carbon/.project \
+		carbon/.idea carbon/.idea_modules \
+		carbon/project/target carbon/project/.ivy carbon/project/.boot \
+		carbon/project/project carbon/projectFilesBackup
 
 clean-silver:
 	rm -rf \
