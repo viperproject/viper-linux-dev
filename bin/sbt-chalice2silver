@@ -6,6 +6,8 @@ source "$DIR/settings.sh"
 SBT="${DOCKER_SBT} '$@'"
 
 ${DOCKER_COMMAND} \
+  -e "BOOGIE_EXE=/usr/bin/boogie" \
+  -e "Z3_EXE=/usr/bin/z3" \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
   "${DOCKER_IMAGE}" \
   /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/chalice2silver && ${SBT}"
