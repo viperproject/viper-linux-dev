@@ -10,4 +10,4 @@ export DOCKER_DEFAULT_MOUNT="\
 export DOCKER_COMMAND="docker run --rm -ti ${DOCKER_DEFAULT_MOUNT}"
 export DOCKER_SOURCE_DIR="$DOCKER_HOME/source"
 export DOCKER_SBT="sbt"
-export DOCKER_IMAGE="vakaras/viper-build:0.0.4"
+export DOCKER_IMAGE="vakaras/viper-build:0.0.7"

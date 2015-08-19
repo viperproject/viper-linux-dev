@@ -3,12 +3,14 @@ SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
 CARBON_HG_URL=https://bitbucket.org/viperproject/carbon
 SILVER_HG_URL=https://bitbucket.org/viperproject/silver
 CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
+CHALICE_HG_URL=https://hg.codeplex.com/chalice
+YCHALICE_HG_URL=https://hg.codeplex.com/forks/ykass/puqbp
 SBT_SILICON=bin/sbt-silicon
 SBT_CARBON=bin/sbt-carbon
 SBT_CHALICE2SILVER=bin/sbt-chalice2silver
 IDE=bin/ide
 IDE_PREREQUISITES=$(SUBREPOS)
-SUBREPOS=docker-viper silicon carbon silver chalice2silver
+SUBREPOS=docker-viper silicon carbon silver chalice2silver chalice ychalice
 
 .PHONY: docs
 
@@ -60,7 +62,13 @@ silver:
 chalice2silver:
 	hg clone $(CHALICE2SILVER_HG_URL) chalice2silver
 
-clean: clean-workspace clean-silicon clean-silicon-common clean-silver
+chalice:
+	hg clone $(CHALICE_HG_URL) chalice
+
+ychalice:
+	hg clone $(YCHALICE_HG_URL) ychalice
+
+clean: clean-workspace clean-silicon clean-carbon clean-silicon-common clean-silver
 	rm -rf .cache
 
 clean-workspace:
@@ -79,6 +87,14 @@ clean-silicon-common:
 	rm -rf \
 		silicon/common/target silicon/common/.settings \
 		silicon/common/.cache silicon/common/.classpath silicon/common/.project
+
+clean-carbon:
+	rm -rf \
+		carbon/tmp carbon/target carbon/.settings \
+		carbon/.classpath carbon/.project \
+		carbon/.idea carbon/.idea_modules \
+		carbon/project/target carbon/project/.ivy carbon/project/.boot \
+		carbon/project/project carbon/projectFilesBackup
 
 clean-silver:
 	rm -rf \

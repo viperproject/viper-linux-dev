@@ -13,6 +13,8 @@ SBT="${DOCKER_SBT} 'run ${DOCKER_CHALICE_FILE} ${DOCKER_SILVER_FILE}'"
 touch "$SILVER_FILE"
 
 ${DOCKER_COMMAND} \
+  -e "BOOGIE_EXE=/usr/bin/boogie" \
+  -e "Z3_EXE=/usr/bin/z3" \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
   -v "${CHALICE_FILE}:${DOCKER_CHALICE_FILE}" \
   -v "${SILVER_FILE}:${DOCKER_SILVER_FILE}" \
