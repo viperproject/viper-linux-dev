@@ -11,4 +11,4 @@ ${DOCKER_COMMAND} \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
   -v "$(pwd)/workspace:${DOCKER_HOME}" \
   -v "$(pwd):${DOCKER_SOURCE_DIR}" \
-  "${DOCKER_IMAGE}" /bin/bash
+  "${DOCKER_IMAGE}" /usr/bin/fish
