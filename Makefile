@@ -16,26 +16,22 @@ SUBREPOS=docker-viper silicon carbon silver chalice2silver chalice ychalice
 
 test: test_silicon test_carbon test_chalice2silver
 
-.cache:
-	mkdir -p .cache/ivy2
-	mkdir -p .cache/sbt
-	mkdir -p .cache/IdeaIC14
+workspace:
+	mkdir -p workspace
 
-init_cache: .cache
-
-test_silicon: $(SUBREPOS) init_cache
+test_silicon: $(SUBREPOS) workspace
 	$(SBT_SILICON) test
 
-test_carbon: $(SUBREPOS) init_cache
+test_carbon: $(SUBREPOS) workspace
 	$(SBT_CARBON) test
 
-test_chalice2silver: $(SUBREPOS) init_cache
+test_chalice2silver: $(SUBREPOS) workspace
 	$(SBT_CHALICE2SILVER) test
 
-ide: $(IDE_PREREQUISITES) init_cache
+ide: $(IDE_PREREQUISITES) workspace
 	$(IDE)
 
-shell: init_cache
+shell: workspace
 	bin/shell
 
 docs:

@@ -8,6 +8,5 @@ echo "run /boogieOpt:nologo /boogieOpt:noinfer /boogie:/usr/bin/boogie tests/gen
 echo "run -boogie:/usr/bin/boogie tests/general-tests/quantifiers.chalice"
 
 ${DOCKER_COMMAND} \
-  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
   "${DOCKER_IMAGE}" \
   /bin/bash
