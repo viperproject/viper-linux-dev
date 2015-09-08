@@ -36,6 +36,10 @@ Build Docker image:
 
   make build_image
 
+**Note:** Dockerfile assumes that your user id is 1000 (default for main
+user in most Linux distributions). If it is different, you have to
+manually update the Dockerfile and rebuild the image.
+
 Run tests:
 
 .. code-block:: bash
@@ -51,9 +55,8 @@ Start IntelliJ IDEA:
 Follow the instructions of the IntelliJ IDEA setup wizard. On step
 “Featured plugins”, install Scala plugin.
 
-Open project: *Open* → ``/home/developer/source/silicon`` (or
-``/home/developer/source/carbon`` if you want to develop Carbon instead
-of Silicon) → *OK* → Select these items:
+Open project: *Open* → ``/home/developer/source/chalice2silver`` →
+*OK* → Select these items:
 
 +   Use auto-import
 +   Project SDK: *New…* → ``/usr/lib/jvm/java-7-oracle`` → *OK*
