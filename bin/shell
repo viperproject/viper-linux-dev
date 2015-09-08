@@ -4,7 +4,6 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source "$DIR/settings.sh"
 
 ${DOCKER_COMMAND} \
-  -m 1500m \
   -e DISPLAY=$DISPLAY \
   -e "BOOGIE_EXE=/usr/bin/boogie" \
   -e "Z3_EXE=/usr/bin/z3" \
