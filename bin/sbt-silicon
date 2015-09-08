@@ -6,6 +6,5 @@ source "$DIR/settings.sh"
 SBT="${DOCKER_SBT} '$@'"
 
 ${DOCKER_COMMAND} \
-  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
   "${DOCKER_IMAGE}" \
   /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/silicon && ${SBT}"

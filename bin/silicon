@@ -9,7 +9,6 @@ DOCKER_SILVER_FILE="${DOCKER_HOME}/file.sil"
 SBT="${DOCKER_SBT} 'run ${DOCKER_SILVER_FILE}'"
 
 ${DOCKER_COMMAND} \
-  -v "$(pwd):${DOCKER_SOURCE_DIR}" \
   -v "${SILVER_FILE}:${DOCKER_SILVER_FILE}" \
   "${DOCKER_IMAGE}" \
   /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/silicon && ${SBT}"

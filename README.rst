@@ -30,6 +30,10 @@ Build Docker image:
 
   make build_image
 
+**Note:** Dockerfile assumes that your user id is 1000 (default for main
+user in most Linux distributions). If it is different, you have to
+manually update the Dockerfile and rebuild the image.
+
 Run tests:
 
 .. code-block:: bash
