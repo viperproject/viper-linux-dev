@@ -24,6 +24,12 @@ Clone repository:
   
   hg clone https://bitbucket.org/viperproject/viper-linux-dev
 
+Switch branch:
+
+.. code-block:: bash
+
+  hg update chalice
+
 Build Docker image:
 
 .. code-block:: bash
@@ -39,15 +45,15 @@ Run tests:
 Start IntelliJ IDEA:
 
 .. code-block:: bash
-  
-  make ide-silicon
 
-Install Scala plugin: *Configure* → *Plugins* → *Install JetBrains
-plugin…* → Search for “Scala” → *Install plugin* → *Restart
-IntelliJ IDEA* → *OK* → *Restart*.
+  make ide
 
-Open project: *Open* → ``/home/developer/source/silicon`` → *OK* →
-Select these items:
+Follow the instructions of the IntelliJ IDEA setup wizard. On step
+“Featured plugins”, install Scala plugin.
+
+Open project: *Open* → ``/home/developer/source/silicon`` (or
+``/home/developer/source/carbon`` if you want to develop Carbon instead
+of Silicon) → *OK* → Select these items:
 
 +   Use auto-import
 +   Project SDK: *New…* → ``/usr/lib/jvm/java-7-oracle`` → *OK*
@@ -72,3 +78,12 @@ If you want to have the ``sbt test`` and ``sbt compile`` targets:
 
 *Note:* It is expected that IntelliJ cannot find ``brandingData``. Just
 ignore this error.
+
+Tips
+=====
+
+If you want to get into interactive shell, use:
+
+.. code-block:: bash
+
+  make shell
