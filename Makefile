@@ -1,4 +1,4 @@
-DOCKER_VIPER_HG_URL=https://bitbucket.org/vakaras/docker-viper-dev
+DOCKER_VIPER_HG_URL=https://bitbucket.org/viperproject/viper-linux-dev-docker
 SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
 CARBON_HG_URL=https://bitbucket.org/viperproject/carbon
 SILVER_HG_URL=https://bitbucket.org/viperproject/silver
