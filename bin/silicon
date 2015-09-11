@@ -3,12 +3,9 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 source "$DIR/settings.sh"
 
-SILVER_FILE="$(readlink -f "$1")"
-DOCKER_SILVER_FILE="${DOCKER_HOME}/file.sil"
+rm -f "${HOST_SILVER_FILE_PATH}"
+cp "$1" "${HOST_SILVER_FILE_PATH}"
 
-SBT="${DOCKER_SBT} 'run ${DOCKER_SILVER_FILE}'"
+${NAILGUN_SERVER_BIN}
 
-${DOCKER_COMMAND} \
-  -v "${SILVER_FILE}:${DOCKER_SILVER_FILE}" \
-  "${DOCKER_IMAGE}" \
-  /bin/bash -c "cd ${DOCKER_SOURCE_DIR}/silicon && ${SBT}"
+${NAILGUN_BIN} ${SILICON_MAIN_CLASS} "${DOCKER_SILVER_FILE_PATH}"

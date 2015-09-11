@@ -77,6 +77,26 @@ If you want to have the ``sbt test`` and ``sbt compile`` targets:
 *Note:* It is expected that IntelliJ cannot find ``brandingData``. Just
 ignore this error.
 
+If you want to use a Carbon and Silicon from command line, build
+packages by using this command (in addition it requires ``gcc`` and
+``git`` to be installed):
+
+.. code-block:: bash
+
+  make build-standalone
+
+and add ``bin/silicon`` and ``bin/carbon`` to your ``PATH``. Now you
+should be able to verify Silver file:
+
+.. code-block:: bash
+
+  silicon test.sil
+
+*Note:* these Bash scripts under the hood start the Docker container
+with `Nailgun <http://www.martiansoftware.com/nailgun/index.html>`_
+server. If the server is too slow to start, the first execution of the
+script might fail.
+
 Tips
 =====
 
@@ -85,3 +105,9 @@ If you want to get into interactive shell, use:
 .. code-block:: bash
 
   make shell
+
+In the bin directory you can find Bash scripts ``silicon-ide`` and
+``carbon-ide`` that can be used to integrate Silicon and Carbon into
+text editors. You can find
+`Syntastic <https://github.com/scrooloose/syntastic/>`_ based
+integration for VIM `here <https://github.com/vakaras/vim-silver>`_.

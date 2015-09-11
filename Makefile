@@ -21,6 +21,13 @@ test_silicon: $(SUBREPOS) workspace
 test_carbon: $(SUBREPOS) workspace
 	$(SBT_CARBON) test
 
+nailgun/ng:
+	git clone https://github.com/martylamb/nailgun.git nailgun
+	cd nailgun && make
+
+build-standalone: $(SUBREPOS) workspace nailgun/ng
+	$(SBT_SILICON) assembly
+
 ide: $(IDE_PREREQUISITES) workspace
 	$(IDE)
 

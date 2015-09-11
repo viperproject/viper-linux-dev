@@ -1,0 +1,18 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+rm -f "${HOST_ERROR_FILE_PATH}"
+rm -f "${HOST_SILVER_FILE_PATH}"
+cp "$1" "${HOST_SILVER_FILE_PATH}"
+
+${NAILGUN_SERVER_BIN}
+
+${NAILGUN_BIN} ${SILICON_MAIN_CLASS} \
+  --ideMode --ideModeErrorFile \
+  "${DOCKER_ERROR_FILE_PATH}" "${DOCKER_SILVER_FILE_PATH}" >& /dev/null
+RETURN_CODE=$?
+cat "${HOST_ERROR_FILE_PATH}"
+
+exit ${RETURN_CODE}
