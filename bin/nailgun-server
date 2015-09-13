@@ -5,7 +5,7 @@ source "$DIR/settings.sh"
 
 NAILGUN_JAR=/usr/share/java/nailgun-0.9.0.jar
 NAILGUN_MAIN=com.martiansoftware.nailgun.NGServer
-SILICON_JAR=/home/developer/source/silicon/target/scala-2.10/silicon.jar
+SILICON_JAR=/home/developer/source/silicon/target/scala-2.11/silicon.jar
 JAVA_CLASSPATH="${NAILGUN_JAR}:${SILICON_JAR}"
 
 EXISTS=$(docker ps -a | grep viper-nailgun-server)
