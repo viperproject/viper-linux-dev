@@ -2,8 +2,8 @@
 Viper Development Environment
 =============================
 
-An environment for developing
-`Viper <https://bitbucket.org/viperproject/>`_ on Linux.
+An environment for developing and using `Viper
+<http://www.pm.inf.ethz.ch/research/viper.html>`_ on Linux.
 
 Requirements
 ============
@@ -12,11 +12,21 @@ Requirements
 
     +   Installation instructions for Ubuntu can be found
         `here <https://docs.docker.com/installation/ubuntulinux/>`_.
-    +   How to use docker without sudo can be found
-        `here <https://docs.docker.com/installation/ubuntulinux/#giving-non-root-access>`_.
 
-Quick start
+Quick Start
 ===========
+
+1.  As a first step, please follow the instructions in the subsection
+    `Environment`_ to set up the environment.
+2.  If you want to use Viper tools as stand-alone commands, or if you
+    want to have Silver and Chalice support in your text editor, please
+    follow the steps in the subsection `Using Viper`_.
+3.  If you want to use IDE for Viper development, please follow the
+    steps in the subsection `Developing Viper`_.
+
+-----------
+Environment
+-----------
 
 Clone repository:
 
@@ -24,7 +34,7 @@ Clone repository:
 
   hg clone https://bitbucket.org/viperproject/viper-linux-dev
 
-Build Docker image:
+Build Docker image (**note**: this command uses ``sudo`` to get root access):
 
 .. code-block:: bash
 
@@ -34,11 +44,71 @@ Build Docker image:
 user in most Linux distributions). If it is different, you have to
 manually update the Dockerfile and rebuild the image.
 
-Run tests:
+Run tests (**note**: this command uses ``sudo`` to get root access):
 
 .. code-block:: bash
 
   make test
+
+This command runs Silicon, Carbon and Chalice2Silver test suites. If you
+need to run the test suite regularly and entering ``sudo`` password each
+time annoys you, you can start a shell inside a container and invoke
+``sbt`` directly:
+
+.. code-block:: bash
+
+  make shell
+  # If succeeded, now you are inside Docker container.
+  # To run Chalice2Silver tests, execute:
+  cd source/chalice2silver
+  sbt test
+
+-----------
+Using Viper
+-----------
+
+Build packages by using this command (in addition it requires ``gcc``
+and ``git`` to be installed):
+
+.. code-block:: bash
+
+  make build-standalone
+
+and add ``bin`` to your ``PATH``.
+
+**Note:** You need to rebuild packages each time you update sources.
+
+Now you should be able to use Silicon and Carbon from the command line:
+
+.. code-block:: bash
+
+  silicon test.sil
+
+**Note:** these Bash scripts under the hood start the Docker container
+with `Nailgun <http://www.martiansoftware.com/nailgun/index.html>`_
+server. If the server is too slow to start, the first execution of the
+script might fail.
+
+You can start the server manually by executing:
+
+.. code-block:: bash
+
+  nailgun-server
+
+You can avoid automatically starting server by passing
+``--assume-server-running`` flag:
+
+.. code-block:: bash
+
+  silicon --assume-server-running test.sil
+
+----------------
+Developing Viper
+----------------
+
+Docker image has a
+`IntelliJ IDEA Community Edition <https://www.jetbrains.com/idea/>`_
+installed, which you can use for developing Viper.
 
 Start IntelliJ IDEA:
 
@@ -76,26 +146,6 @@ If you want to have the ``sbt test`` and ``sbt compile`` targets:
 
 *Note:* It is expected that IntelliJ cannot find ``brandingData``. Just
 ignore this error.
-
-If you want to use a Carbon and Silicon from command line, build
-packages by using this command (in addition it requires ``gcc`` and
-``git`` to be installed):
-
-.. code-block:: bash
-
-  make build-standalone
-
-and add ``bin/silicon`` and ``bin/carbon`` to your ``PATH``. Now you
-should be able to verify Silver file:
-
-.. code-block:: bash
-
-  silicon test.sil
-
-*Note:* these Bash scripts under the hood start the Docker container
-with `Nailgun <http://www.martiansoftware.com/nailgun/index.html>`_
-server. If the server is too slow to start, the first execution of the
-script might fail.
 
 Tips
 =====
