@@ -2,15 +2,17 @@ DOCKER_VIPER_HG_URL=https://bitbucket.org/viperproject/viper-linux-dev-docker
 SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
 CARBON_HG_URL=https://bitbucket.org/viperproject/carbon
 SILVER_HG_URL=https://bitbucket.org/viperproject/silver
+CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
 SBT_SILICON=bin/sbt-silicon
 SBT_CARBON=bin/sbt-carbon
+SBT_CHALICE2SILVER=bin/sbt-chalice2silver
 IDE=bin/ide
 IDE_PREREQUISITES=$(SUBREPOS)
-SUBREPOS=docker-viper silicon carbon silver
+SUBREPOS=docker-viper silicon carbon silver chalice2silver
 
 .PHONY: docs
 
-test: test_silicon test_carbon
+test: test_silicon test_carbon test_chalice2silver
 
 workspace:
 	mkdir -p workspace
@@ -21,12 +23,15 @@ test_silicon: $(SUBREPOS) workspace
 test_carbon: $(SUBREPOS) workspace
 	$(SBT_CARBON) test
 
+test_chalice2silver: $(SUBREPOS) workspace
+	$(SBT_CHALICE2SILVER) test
+
 nailgun/ng:
 	git clone https://github.com/martylamb/nailgun.git nailgun
 	cd nailgun && make
 
 build-standalone: $(SUBREPOS) workspace nailgun/ng
-	$(SBT_SILICON) assembly
+	$(SBT_CHALICE2SILVER) assembly
 
 ide: $(IDE_PREREQUISITES) workspace
 	$(IDE)
@@ -54,6 +59,9 @@ carbon:
 
 silver:
 	hg clone $(SILVER_HG_URL) silver
+
+chalice2silver:
+	hg clone $(CHALICE2SILVER_HG_URL) chalice2silver
 
 clean: clean-workspace clean-silicon clean-carbon clean-silicon-common clean-silver
 	rm -rf .cache
