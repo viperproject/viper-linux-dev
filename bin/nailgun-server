@@ -5,18 +5,18 @@ source "$DIR/settings.sh"
 
 NAILGUN_JAR=/usr/share/java/nailgun-0.9.0.jar
 NAILGUN_MAIN=com.martiansoftware.nailgun.NGServer
-SILICON_JAR=/home/developer/source/silicon/target/scala-2.11/silicon.jar
+SILICON_JAR=/home/developer/source/chalice2silver/target/scala-2.11/chalice2sil.jar
 JAVA_CLASSPATH="${NAILGUN_JAR}:${SILICON_JAR}"
 
-EXISTS=$(docker ps -a | grep viper-nailgun-server)
+EXISTS=$(${DOCKER_BIN} ps -a | grep viper-nailgun-server)
 if [[ -n "$EXISTS" ]]; then
-  RUNNING=$(docker inspect --format='{{.State.Running}}' "${DOCKER_NAILGUN_SERVER_NAME}")
+  RUNNING=$(${DOCKER_BIN} inspect --format='{{.State.Running}}' "${DOCKER_NAILGUN_SERVER_NAME}")
 else
   RUNNING="none"
 fi
 
 if [[ "${RUNNING}" == "false" ]]; then
-  docker rm "${DOCKER_NAILGUN_SERVER_NAME}"
+  ${DOCKER_BIN} rm "${DOCKER_NAILGUN_SERVER_NAME}"
 fi
 
 if [[ "${RUNNING}" != "true" ]]; then
