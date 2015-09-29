@@ -1,6 +1,17 @@
 #!/bin/bash
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+# https://bosker.wordpress.com/2012/02/12/bash-scripters-beware-of-the-cdpath/
+unset CDPATH
+
+# https://stackoverflow.com/a/246128
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
 source "$DIR/settings.sh"
 
 NAILGUN_JAR=/usr/share/java/nailgun-0.9.0.jar
@@ -24,14 +35,19 @@ if [[ "${RUNNING}" != "true" ]]; then
   echo "Docker container is not running. Starting…"
   echo "You might need to rerun the program."
 
+  EXECUTABLE=${WORKSPACE_DIR}/nailgun
+  echo '#!/bin/bash' > "$EXECUTABLE"
+  echo "java -cp '${JAVA_CLASSPATH}' ${NAILGUN_MAIN}" >> "$EXECUTABLE"
+  chmod 755 "$EXECUTABLE"
+
   ${DOCKER_COMMAND_DETTACHED} \
     --name "${DOCKER_NAILGUN_SERVER_NAME}" \
     -p 2113:2113 \
     -e "BOOGIE_EXE=/usr/bin/boogie" \
     -e "Z3_EXE=/usr/bin/z3" \
     "${DOCKER_IMAGE}" \
-    /usr/bin/fish \
-    -c "java -cp ${JAVA_CLASSPATH} ${NAILGUN_MAIN}"
+    /bin/bash \
+    -c /home/developer/nailgun
 
   exit 1
 
