@@ -102,6 +102,64 @@ You can avoid automatically starting server by passing
 
   silicon --assume-server-running test.sil
 
+Sublime Text 3
+--------------
+
+Requirements:
+
+1.  `Sublime Text 3 <https://www.sublimetext.com/3>`_.
+2.  `Package Control <https://packagecontrol.io/installation>`_.
+3.  `SublimeLinter 3 <http://www.sublimelinter.com/>`_.
+
+Installation:
+
+1.  Start editor.
+2.  Open the Command Palette (``ctrl+shift+p`` on Linux).
+3.  Execute ``Package Control: Add Repository`` and
+    enter ``https://github.com/vakaras/Sublime-Silver`` to the input
+    field.
+4.  Open the Command Palette → ``Package Control: Install Package``
+    → ``Sublime-Silver``.
+5.  Open the Command Palette → ``Package Control: Add Repository`` →
+    ``https://github.com/vakaras/SublimeLinter-contrib-silicon``.
+6.  Open the Command Palette → ``Package Control: Install Package``
+    → ``SublimeLinter-contrib-silicon``.
+
+Usage:
+
+1.  Start Silicon as Nailgun server:
+
+  .. code-block:: bash
+
+    nailgun-server
+
+2.  Start (or restart, if already started) editor.
+3.  Open a file with ``.sil`` extension.
+
+VIM
+---
+
+Requirements:
+
+1.  Package manager like `Pathogen
+<http://www.vim.org/scripts/script.php?script_id=2332>`_
+2.  `Syntastic <https://github.com/scrooloose/syntastic>`_
+
+Installation:
+
+1.  Install ``https://github.com/vakaras/vim-silver`` via
+    your favorite package manager.
+
+Usage:
+
+1.  Start Silicon as Nailgun server:
+
+  .. code-block:: bash
+
+    nailgun-server
+
+2.  Open a file with ``.sil`` extension.
+
 ----------------
 Developing Viper
 ----------------
