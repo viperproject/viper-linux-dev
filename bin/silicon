@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ASSUME_SERVER_RUNNING=false
+IDE_MODE=false
 SILVER_FILE_PATH=
 OPTS=
 
@@ -15,6 +16,9 @@ do
     ;;
     --assume-server-running)
       ASSUME_SERVER_RUNNING=true
+    ;;
+    --ideMode)
+      IDE_MODE=true
     ;;
     --*)
       value="$2"
@@ -60,7 +64,17 @@ if [[ "${ASSUME_SERVER_RUNNING}" == "false" ]]; then
 fi
 
 if [[ -n "${SILVER_FILE_PATH}" ]]; then
-  ${NAILGUN_BIN} ${SILICON_MAIN_CLASS} $OPTS "${DOCKER_SILVER_FILE_PATH}"
+  if [[ "${IDE_MODE}" == "false" ]]; then
+    ${NAILGUN_BIN} ${SILICON_MAIN_CLASS} $OPTS "${DOCKER_SILVER_FILE_PATH}"
+  else
+    echo "" > "${HOST_ERROR_FILE_PATH}"
+    ${NAILGUN_BIN} ${SILICON_MAIN_CLASS} $OPTS \
+      --ideMode --ideModeErrorFile "${DOCKER_ERROR_FILE_PATH}" \
+      "${DOCKER_SILVER_FILE_PATH}" >& /dev/null
+    RETURN_CODE=$?
+    cat "${HOST_ERROR_FILE_PATH}"
+    exit ${RETURN_CODE}
+  fi
 else
   ${NAILGUN_BIN} ${SILICON_MAIN_CLASS} $OPTS
 fi
