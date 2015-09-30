@@ -143,7 +143,7 @@ VIM
 Requirements:
 
 1.  Package manager like `Pathogen
-<http://www.vim.org/scripts/script.php?script_id=2332>`_
+    <http://www.vim.org/scripts/script.php?script_id=2332>`_
 2.  `Syntastic <https://github.com/scrooloose/syntastic>`_
 
 Installation:
