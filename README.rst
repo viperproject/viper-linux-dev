@@ -28,11 +28,12 @@ Quick Start
 Environment
 -----------
 
-Clone repository:
+Clone repository and ``cd`` into it:
 
 .. code-block:: bash
 
   hg clone https://bitbucket.org/viperproject/viper-linux-dev
+  cd viper-linux-dev
 
 Build Docker image (**note**: this command uses ``sudo`` to get root access):
 
