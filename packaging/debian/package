@@ -1,0 +1,42 @@
+#!/bin/bash
+
+PROJECT=z3
+PROJECT_VERSION=4.4.0
+PACKAGE_REVISION=1
+
+
+PACKAGING_ROOT="${HOME}/debian"
+PACKAGE_NAME="${PROJECT}_${PROJECT_VERSION}-${PACKAGE_REVISION}"
+PACKAGE_PATH="${PACKAGING_ROOT}/${PACKAGE_NAME}"
+PACKAGE_META="${PACKAGE_PATH}/DEBIAN"
+
+
+# Clean everything.
+rm -rf "${PACKAGING_ROOT}"
+
+# Create work directory.
+mkdir -p "${PACKAGE_PATH}"
+
+# Create directory structure.
+PREFIX=/usr
+mkdir -p ${PACKAGE_PATH}${PREFIX}/bin
+mkdir -p ${PACKAGE_PATH}${PREFIX}/include
+mkdir -p ${PACKAGE_PATH}${PREFIX}/lib
+
+# Copy files.
+cp ${PREFIX}/include/z3.h              ${PACKAGE_PATH}${PREFIX}/include/z3.h
+cp ${PREFIX}/include/z3_v1.h           ${PACKAGE_PATH}${PREFIX}/include/z3_v1.h
+cp ${PREFIX}/include/z3_macros.h       ${PACKAGE_PATH}${PREFIX}/include/z3_macros.h
+cp ${PREFIX}/include/z3_api.h          ${PACKAGE_PATH}${PREFIX}/include/z3_api.h
+cp ${PREFIX}/include/z3_algebraic.h    ${PACKAGE_PATH}${PREFIX}/include/z3_algebraic.h
+cp ${PREFIX}/include/z3_polynomial.h   ${PACKAGE_PATH}${PREFIX}/include/z3_polynomial.h
+cp ${PREFIX}/include/z3_rcf.h          ${PACKAGE_PATH}${PREFIX}/include/z3_rcf.h
+cp ${PREFIX}/include/z3_interp.h       ${PACKAGE_PATH}${PREFIX}/include/z3_interp.h
+cp ${PREFIX}/include/z3_fpa.h          ${PACKAGE_PATH}${PREFIX}/include/z3_fpa.h
+
+# Copy metadata.
+mkdir -p "${PACKAGE_META}"
+cp control "${PACKAGE_META}"
+
+# Build package.
+cd ${PACKAGING_ROOT} && dpkg-deb --build "${PACKAGE_NAME}"
