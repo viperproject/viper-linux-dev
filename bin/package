@@ -1,0 +1,8 @@
+#!/bin/bash
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+${DOCKER_COMMAND} \
+  "${DOCKER_IMAGE}" \
+  /home/developer/package
