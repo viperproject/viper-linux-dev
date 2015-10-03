@@ -17,10 +17,14 @@ export WORKSPACE_DIR="${ROOT_DIR}/workspace"
 export NAILGUN_BIN="${ROOT_DIR}/nailgun/ng"
 export NAILGUN_SERVER_BIN="${BIN_DIR}/nailgun-server"
 function docker_run_fun () {
-  if [ "$EUID" -ne 0 ]; then
-    >&2 echo 'To start a Docker container, you need to be root.'
-    >&2 echo 'Using sudo to get root permissions.'
-    CMD="sudo docker"
+  if [[ $(uname) != 'Darwin' ]]; then
+    if [ "$EUID" -ne 0 ]; then
+      >&2 echo 'To start a Docker container, you need to be root.'
+      >&2 echo 'Using sudo to get root permissions.'
+      CMD="sudo docker"
+    else
+      CMD="docker"
+    fi
   else
     CMD="docker"
   fi
