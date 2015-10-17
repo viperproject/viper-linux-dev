@@ -28,7 +28,7 @@ function docker_run_fun () {
   else
     CMD="docker"
   fi
-  ${CMD} $@
+  ${CMD} "$@"
 }
 export DOCKER_BIN="docker_run_fun"
 export DOCKER_HOME=/home/developer
