@@ -1,0 +1,8 @@
+Package: viper
+Version: 0.1
+Section: base
+Priority: extra
+Architecture: amd64
+Depends: z3
+Maintainer: Vytautas Astrauskas <vastrauskas@gmail.com>
+Description: Viper is a verification infrastructure for permission-based reasoning developed by the Programming Methodology group at ETH Zurich.

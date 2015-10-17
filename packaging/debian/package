@@ -58,3 +58,29 @@ cp ${PACKAGE_META_SOURCE}/* "${PACKAGE_META_TARGET}"
 
 # Build package.
 cd ${PACKAGING_ROOT} && dpkg-deb --build "${PACKAGE_NAME}"
+
+# Package Viper
+
+PROJECT=viper
+PROJECT_VERSION=0.1
+PACKAGE_REVISION=1
+
+initialize
+
+# Create directory structure.
+PREFIX=/usr
+mkdir -p ${PACKAGE_PATH}${PREFIX}/bin
+mkdir -p ${PACKAGE_PATH}${PREFIX}/lib/viper
+
+# Copy files.
+cp ${PACKAGE_META_SOURCE}/silicon ${PACKAGE_PATH}${PREFIX}/bin/silicon
+#cp ${PACKAGE_META_SOURCE}/carbon ${PACKAGE_PATH}${PREFIX}/bin/carbon
+#cp ${PACKAGE_META_SOURCE}/chalice2silver ${PACKAGE_PATH}${PREFIX}/bin/chalice2silver
+cp "${HOME}/source/chalice2silver/target/scala-2.11/chalice2sil.jar" ${PACKAGE_PATH}${PREFIX}/lib/viper/viper.jar
+
+# Copy metadata.
+mkdir -p "${PACKAGE_META_TARGET}"
+cp ${PACKAGE_META_SOURCE}/control "${PACKAGE_META_TARGET}"
+
+# Build package.
+cd ${PACKAGING_ROOT} && dpkg-deb --build "${PACKAGE_NAME}"
