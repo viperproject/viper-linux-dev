@@ -3,6 +3,6 @@ Version: 2015.06.10
 Section: base
 Priority: extra
 Architecture: amd64
-Depends: mono-complete z3
+Depends: mono-complete, z3
 Maintainer: Vytautas Astrauskas <vastrauskas@gmail.com>
 Description: Boogie is an itermediate verification language from Microsoft Research.
