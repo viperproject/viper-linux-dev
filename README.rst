@@ -214,9 +214,3 @@ If you want to get into interactive shell, use:
 .. code-block:: bash
 
   make shell
-
-In the bin directory you can find Bash scripts ``silicon-ide`` and
-``carbon-ide`` that can be used to integrate Silicon and Carbon into
-text editors. You can find
-`Syntastic <https://github.com/scrooloose/syntastic/>`_ based
-integration for VIM `here <https://github.com/vakaras/vim-silver>`_.
