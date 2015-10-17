@@ -209,8 +209,33 @@ ignore this error.
 Tips
 =====
 
+-----------------
+Interactive Shell
+-----------------
+
 If you want to get into interactive shell, use:
 
 .. code-block:: bash
 
   make shell
+
+------------------------
+Building Debian Packages
+------------------------
+
+You can create Debian packages (``*.deb`` files) for Z3, Boogie and
+Viper by executing:
+
+.. code-block:: bash
+
+  make package
+
+Packages are dropped to ``workspace/debian/`` directory. You can install
+them by using ``dpkg -i`` command. For example:
+
+.. code-block:: bash
+
+  sudo dpkg -i z3_4.4.0-1.deb
+
+**Note**: this will **not** install any dependencies automatically. You
+need to install Java (for Viper) and Mono (for Boogie) manually.
