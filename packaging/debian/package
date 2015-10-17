@@ -1,17 +1,25 @@
 #!/bin/bash
 
+function initialize () {
+
+  # Set variables.
+  PACKAGING_ROOT="${HOME}/debian"
+  PACKAGE_NAME="${PROJECT}_${PROJECT_VERSION}-${PACKAGE_REVISION}"
+  PACKAGE_PATH="${PACKAGING_ROOT}/${PACKAGE_NAME}"
+  PACKAGE_META_TARGET="${PACKAGE_PATH}/DEBIAN"
+  PACKAGE_META_SOURCE="${PACKAGING_ROOT}/${PROJECT}"
+
+  # Create work directory.
+  mkdir -p "${PACKAGE_PATH}"
+}
+
+# Package Z3.
+
 PROJECT=z3
 PROJECT_VERSION=4.4.0
 PACKAGE_REVISION=1
 
-
-PACKAGING_ROOT="${HOME}/debian"
-PACKAGE_NAME="${PROJECT}_${PROJECT_VERSION}-${PACKAGE_REVISION}"
-PACKAGE_PATH="${PACKAGING_ROOT}/${PACKAGE_NAME}"
-PACKAGE_META="${PACKAGE_PATH}/DEBIAN"
-
-# Create work directory.
-mkdir -p "${PACKAGE_PATH}"
+initialize
 
 # Create directory structure.
 PREFIX=/usr
@@ -21,8 +29,8 @@ mkdir -p ${PACKAGE_PATH}${PREFIX}/bin
 cp ${PREFIX}/bin/z3 ${PACKAGE_PATH}${PREFIX}/bin/z3
 
 # Copy metadata.
-mkdir -p "${PACKAGE_META}"
-cp ${PACKAGING_ROOT}/control "${PACKAGE_META}"
+mkdir -p "${PACKAGE_META_TARGET}"
+cp ${PACKAGE_META_SOURCE}/* "${PACKAGE_META_TARGET}"
 
 # Build package.
 cd ${PACKAGING_ROOT} && dpkg-deb --build "${PACKAGE_NAME}"
