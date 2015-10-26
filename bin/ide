@@ -6,4 +6,4 @@ source "$DIR/settings.sh"
 ${DOCKER_COMMAND} \
   -e DISPLAY=$DISPLAY \
   -v /tmp/.X11-unix:/tmp/.X11-unix \
-  "${DOCKER_IMAGE}"
+  "${DOCKER_IMAGE}" /usr/local/bin/idea
