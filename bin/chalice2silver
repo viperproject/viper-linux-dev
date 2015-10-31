@@ -1,0 +1,81 @@
+#!/bin/bash
+
+ASSUME_SERVER_RUNNING=false
+IDE_MODE=false
+SILVER_FILE_PATH=
+OPTS=
+
+# https://stackoverflow.com/a/14203146
+while [[ $# > 0 ]]
+do
+  key="$1"
+
+  case $key in
+    --help)
+      OPTS="$OPTS --help"
+    ;;
+    --assume-server-running)
+      ASSUME_SERVER_RUNNING=true
+    ;;
+    --ideMode)
+      IDE_MODE=true
+    ;;
+    --*)
+      value="$2"
+      OPTS="$OPTS $key $value"
+      shift
+    ;;
+    *)
+      SILVER_FILE_PATH="$key"
+    ;;
+  esac
+  shift
+done
+
+if [[ -n "${OPTS}" ]]; then
+  echo "Passed options: $OPTS"
+fi
+
+# https://bosker.wordpress.com/2012/02/12/bash-scripters-beware-of-the-cdpath/
+unset CDPATH
+
+# https://stackoverflow.com/a/246128
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+source "$DIR/settings.sh"
+
+if [[ -n "${SILVER_FILE_PATH}" ]]; then
+  if [ ! -f "${SILVER_FILE_PATH}" ]; then
+    echo "File ${SILVER_FILE_PATH} does not exist."
+    exit 1
+  fi
+  rm -f "${HOST_SILVER_FILE_PATH}"
+  cp "${SILVER_FILE_PATH}" "${HOST_SILVER_FILE_PATH}"
+fi
+
+if [[ "${ASSUME_SERVER_RUNNING}" == "false" ]]; then
+  ${NAILGUN_SERVER_BIN}
+fi
+
+if [[ -n "${SILVER_FILE_PATH}" ]]; then
+  if [[ "${IDE_MODE}" == "false" ]]; then
+    ${NAILGUN_BIN} ${CHALICE2SILVER_MAIN_CLASS} $OPTS "${DOCKER_SILVER_FILE_PATH}"
+  else
+    echo "" > "${HOST_ERROR_FILE_PATH}"
+    ${NAILGUN_BIN} ${CHALICE2SILVER_MAIN_CLASS} $OPTS \
+      --ideMode --ideModeErrorFile "${DOCKER_ERROR_FILE_PATH}" \
+      "${DOCKER_SILVER_FILE_PATH}"
+    #>& /dev/null
+    RETURN_CODE=$?
+    cat "${HOST_ERROR_FILE_PATH}"
+    exit ${RETURN_CODE}
+  fi
+else
+  ${NAILGUN_BIN} ${CHALICE2SILVER_MAIN_CLASS} $OPTS
+fi

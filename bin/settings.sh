@@ -47,3 +47,4 @@ export HOST_ERROR_FILE_PATH="${WORKSPACE_DIR}/errors.log"
 export DOCKER_ERROR_FILE_PATH="${DOCKER_HOME}/errors.log"
 export SILICON_MAIN_CLASS=viper.silicon.SiliconRunner
 export CARBON_MAIN_CLASS=viper.carbon.Carbon
+export CHALICE2SILVER_MAIN_CLASS=viper.chalice2sil.Program
