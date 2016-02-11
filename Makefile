@@ -33,11 +33,7 @@ nailgun/ng:
 build-standalone: $(SUBREPOS) workspace nailgun/ng
 	$(SBT_CHALICE2SILVER) assembly
 
-package: build-standalone
-	@cp packaging/debian/package workspace/package
-	@rm -rf workspace/debian
-	@cp -r packaging/debian workspace/
-	@chmod 755 workspace/package
+package:
 	bin/package
 
 ide: $(IDE_PREREQUISITES) workspace
