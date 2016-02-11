@@ -4,6 +4,8 @@
 from scripts.utils import Package
 from scripts.licenses import LICENSES
 
+Z3_PACKAGE = Package(' # Z3 # 4.4.0', LICENSES['MIT'], 'https://github.com/Z3Prover/z3')
+BOOGIE_PACKAGE = Package(' # boogie # 2015.06.10', LICENSES['Ms-PL'], 'https://github.com/boogie-org/boogie')
 
 PACKAGES = [
         Package('com.google.code.findbugs # jsr305 # 2.0.3', LICENSES['LGPL2.1'], 'https://github.com/findbugsproject/findbugs/', omit=True),
@@ -30,4 +32,6 @@ PACKAGES = [
         Package('viper # silver # 0.1-SNAPSHOT', LICENSES['MPL'], 'https://bitbucket.org/viperproject/silver/'),
         Package('viper # chalice2sil # 0.1-SNAPSHOT', (LICENSES['MPL'], LICENSES['Ms-PL']), 'https://bitbucket.org/viperproject/chalice2silver/'),
         Package('viper # carbon # 1.0-SNAPSHOT', LICENSES['MPL'], 'https://bitbucket.org/viperproject/carbon'),
+        Z3_PACKAGE,
+        BOOGIE_PACKAGE,
         ]

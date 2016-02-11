@@ -8,7 +8,7 @@ import subprocess
 from glob import glob
 from os import path
 
-from scripts.packages import PACKAGES
+from scripts.packages import PACKAGES, Z3_PACKAGE, BOOGIE_PACKAGE
 
 
 ROOT_DIR = '/home/developer/source'
@@ -27,22 +27,26 @@ DISTRIBUTION_CODENAME = 'trusty'
 
 class DebianPackage:
     """ A Debian package.
+
+    This class implements method template design pattern.
     """
 
     def __init__(self,
-            jar_path,
             package,
             package_revision,
             architecture,
             distribution_codename,
-            maintainer):
+            maintainer,
+            short_description):
 
-        self.jar_path = jar_path
         self.package = package
         self.package_revision = package_revision
         self.architecture = architecture
         self.distribution_codename = distribution_codename
         self.maintainer = maintainer
+        self.short_description = short_description
+        self.section = None     # Expected to be set in subclasses.
+        self.depends = None     # Expected to be set in subclasses.
 
         # Configuration.
         self.full_version = "{0}-{1}".format(
@@ -56,7 +60,6 @@ class DebianPackage:
                 self.full_version,
                 )
         self.package_dir = path.join(BUILD_DIR, self.package_full_name)
-        self.jar_dir = path.join(self.package_dir, 'usr', 'lib', 'viper')
         self.meta_dir = path.join(self.package_dir, 'DEBIAN')
         self.deb_path = path.join(BUILD_DIR, self.package_full_name + ".deb")
         self.deb_name = path.basename(self.deb_path)
@@ -68,6 +71,40 @@ class DebianPackage:
         self._copy_files()
         self._create_meta_data()
 
+    def _copy_files(self):
+        """ This is abtract method.
+        """
+
+    def _create_directories(self):
+        """ This is abtract method.
+        """
+
+    def _create_meta_data(self):
+        with open(path.join(self.meta_dir, 'control'), 'w') as fp:
+            def write(field, value):
+                fp.write('{0}: {1}\n'.format(field, value))
+            write('Package', self.package_name)
+            write('Version', self.package.version)
+            write('Section', self.section)
+            write('Priority', 'optional')
+            write('Architecture', self.architecture)
+            if self.depends:
+                write('Depends', self.depends)
+            write('Maintainer', self.maintainer)
+            write('Description', self.short_description)
+
+
+class JARDebianPackage(DebianPackage):
+    """ A Debian package encapsulating JAR file.
+    """
+
+    def __init__(self, jar_path, *args, **kwargs):
+        super(JARDebianPackage, self).__init__(*args, **kwargs)
+        self.section = 'java'
+        self.jar_path = jar_path
+        self.jar_dir = path.join(self.package_dir, 'usr', 'lib', 'viper')
+        self.depends = 'default-jre'
+
     def _create_directories(self):
         os.makedirs(self.package_dir, exist_ok=True)
         os.makedirs(self.jar_dir, exist_ok=True)
@@ -77,23 +114,51 @@ class DebianPackage:
         # Copy jar.
         shutil.copy(self.jar_path, self.jar_dir)
 
-    def _create_meta_data(self):
-        with open(path.join(self.meta_dir, 'control'), 'w') as fp:
-            fp.write("""\
-Package: {name}
-Version: {version}
-Section: java
-Priority: optional
-Architecture: {architecture}
-Maintainer: {maintainer}
-Description: {description_short}
-""".format(
-                maintainer=self.maintainer,
-                name=self.package_name,
-                version=self.package.version,
-                description_short=self.package.full_name,
-                architecture=self.architecture,
-                ))
+
+class Z3DebianPackage(DebianPackage):
+    """ A Debian package for Z3.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(Z3DebianPackage, self).__init__(*args, **kwargs)
+        self.section = 'base'
+        self.bin_dir = path.join(self.package_dir, 'usr', 'bin')
+        self.depends = 'libgomp1'
+
+    def _create_directories(self):
+        os.makedirs(self.package_dir, exist_ok=True)
+        os.makedirs(self.bin_dir, exist_ok=True)
+        os.makedirs(self.meta_dir, exist_ok=True)
+
+    def _copy_files(self):
+        # Copy binary.
+        shutil.copy('/usr/bin/z3', path.join(self.bin_dir, 'viper-z3'))
+
+
+class BoogieDebianPackage(DebianPackage):
+    """ A Debian package for Boogie.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(BoogieDebianPackage, self).__init__(*args, **kwargs)
+        self.section = 'base'
+        self.bin_dir = path.join(self.package_dir, 'usr', 'bin')
+        self.lib_dir = path.join(self.package_dir, 'usr', 'lib', 'boogie')
+
+    def _create_directories(self):
+        os.makedirs(self.package_dir, exist_ok=True)
+        os.makedirs(self.bin_dir, exist_ok=True)
+        os.makedirs(self.lib_dir, exist_ok=True)
+        os.makedirs(self.meta_dir, exist_ok=True)
+
+    def _copy_files(self):
+        shutil.copy('/usr/bin/boogie', self.bin_dir)
+        for file_path in glob('/usr/lib/boogie/*'):
+            if file_path.endswith('z3.exe'):
+                os.symlink('/usr/bin/viper-z3',
+                           path.join(self.lib_dir, 'z3.exe'))
+            else:
+                shutil.copy(file_path, self.lib_dir)
 
 
 def create_build_script(debian_packages):
@@ -129,12 +194,7 @@ curl -X POST \
      "$URL"
             '''.format(json.dumps({
                 'name': package.package.long_name,
-                'desc': (
-                    'A Debian package automatically generated '
-                    'from JAR “{0}” by using '
-                    'https://bitbucket.org/viperproject/'
-                    'viper-linux-dev/src/tip/packaging/debian/create.py '
-                    'script.').format(package.package.full_name),
+                'desc': package.short_description,
                 'licenses': [
                     license.short_name
                     for license in package.package.licenses
@@ -188,17 +248,48 @@ def create_package_list():
         for package in PACKAGES:
             if package.check(file_name):
                 if not package.omit:
-                    debian_package = DebianPackage(
+                    debian_package = JARDebianPackage(
                             jar_path=jar_path,
                             package=package,
                             package_revision=PACKAGE_REVISION,
                             architecture=ARCHITECTURE,
                             distribution_codename=DISTRIBUTION_CODENAME,
-                            maintainer=MAINTAINER)
+                            maintainer=MAINTAINER,
+                            short_description=(
+                                'A Debian package automatically generated '
+                                'from JAR “{0}” by using '
+                                'https://bitbucket.org/viperproject/'
+                                'viper-linux-dev/src/tip/packaging/'
+                                'debian/create.py script.'
+                                ).format(package.full_name),
+                            )
                     debian_packages.append(debian_package)
                 break
         else:
             raise Exception('Could not find package information.')
+    debian_packages.append(Z3DebianPackage(
+        package=Z3_PACKAGE,
+        package_revision=PACKAGE_REVISION,
+        architecture=ARCHITECTURE,
+        distribution_codename=DISTRIBUTION_CODENAME,
+        maintainer=MAINTAINER,
+        short_description=(
+            'Z3 is a theorem prover from Microsoft Research. '
+            'This package contains a Z3 version that was tested '
+            'to work with Viper.'
+            )
+        ))
+    debian_packages.append(BoogieDebianPackage(
+        package=BOOGIE_PACKAGE,
+        package_revision=PACKAGE_REVISION,
+        architecture=ARCHITECTURE,
+        distribution_codename=DISTRIBUTION_CODENAME,
+        maintainer=MAINTAINER,
+        short_description=(
+            'Boogie is an itermediate verification language from '
+            'Microsoft Research.'
+            )
+        ))
     return debian_packages
 
 
@@ -208,13 +299,17 @@ def execute_scripts():
     api_key = input(
             "If you want the packages to be uploaded to BinTray "
             "please enter your API key: ").strip()
+    def run(script_name):
+        print('bash', script_name, api_key)
+        process = subprocess.Popen(
+                ('bash', script_name, api_key),
+                cwd=BUILD_DIR)
+        if process.wait() != 0:
+            raise subprocess.CalledProcessError(script_name)
     if api_key:
-        print('bash', BUILD_SCRIPT, api_key)
-        print('bash', REPOSITORY_SETUP_SCRIPT, api_key)
-        print('bash', UPLOAD_SCRIPT, api_key)
-        #subprocess.check_call('bash', BUILD_SCRIPT, api_key)
-        #subprocess.check_call('bash', REPOSITORY_SETUP_SCRIPT, api_key)
-        #subprocess.check_call('bash', UPLOAD_SCRIPT, api_key)
+        run(BUILD_SCRIPT)
+        run(REPOSITORY_SETUP_SCRIPT)
+        run(UPLOAD_SCRIPT)
 
 
 def main():

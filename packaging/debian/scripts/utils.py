@@ -36,7 +36,10 @@ class Package:
         except TypeError:
             self.licenses = licenses,
         self.prefix, self.name, self.version = name.split(' # ')
-        self.long_name = '{}.{}'.format(self.prefix, self.name)
+        if self.prefix:
+            self.long_name = '{}.{}'.format(self.prefix, self.name)
+        else:
+            self.long_name = self.name
         self.vcs_url = vcs_url
         self.omit = omit
 
