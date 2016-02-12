@@ -8,7 +8,12 @@ import subprocess
 from glob import glob
 from os import path
 
-from scripts.packages import PACKAGES, Z3_PACKAGE, BOOGIE_PACKAGE
+from scripts.packages import (
+        PACKAGES,
+        Z3_PACKAGE,
+        BOOGIE_PACKAGE,
+        VIPER_PACKAGE,
+        )
 
 
 ROOT_DIR = '/home/developer/source'
@@ -53,16 +58,18 @@ class DebianPackage:
                 package.version,
                 package_revision,
                 )
-        self.package_name = 'viper-{0}'.format(
-                package.long_name.replace('_', '-'))
-        self.package_full_name = 'viper-{0}_{1}'.format(
-                package.long_name,
-                self.full_version,
-                )
         self.package_dir = path.join(BUILD_DIR, self.package_full_name)
         self.meta_dir = path.join(self.package_dir, 'DEBIAN')
         self.deb_path = path.join(BUILD_DIR, self.package_full_name + ".deb")
         self.deb_name = path.basename(self.deb_path)
+
+    @property
+    def package_name(self):
+        return 'viper-{0}'.format(self.package.long_name.replace('_', '-'))
+
+    @property
+    def package_full_name(self):
+        return '{0}_{1}'.format(self.package_name, self.full_version)
 
     def create_package_structure(self):
         """ Creates a folder from which a DEB file can be created.
@@ -84,7 +91,7 @@ class DebianPackage:
             def write(field, value):
                 fp.write('{0}: {1}\n'.format(field, value))
             write('Package', self.package_name)
-            write('Version', self.package.version)
+            write('Version', self.full_version)
             write('Section', self.section)
             write('Priority', 'optional')
             write('Architecture', self.architecture)
@@ -133,6 +140,50 @@ class Z3DebianPackage(DebianPackage):
     def _copy_files(self):
         # Copy binary.
         shutil.copy('/usr/bin/z3', path.join(self.bin_dir, 'viper-z3'))
+
+
+class ViperDebianPackage(DebianPackage):
+    """ A package that has a dependency on all other packages.
+
+    Also it contains shell scripts for invocation.
+    """
+
+    def __init__(self, debian_packages, *args, **kwargs):
+        super(ViperDebianPackage, self).__init__(*args, **kwargs)
+        self.section = 'base'
+        self.bin_dir = path.join(self.package_dir, 'usr', 'bin')
+        dependencies = [
+                package.package_name
+                for package in debian_packages
+                ]
+        dependencies.append('nailgun')
+        self.depends = ', '.join(dependencies)
+
+    @property
+    def package_name(self):
+        return 'viper'
+
+    def _create_directories(self):
+        os.makedirs(self.package_dir, exist_ok=True)
+        os.makedirs(self.bin_dir, exist_ok=True)
+        os.makedirs(self.meta_dir, exist_ok=True)
+
+    def _copy_files(self):
+        configurations = [
+                ('silicon', 'viper.silicon.SiliconRunner'),
+                ('carbon', 'viper.carbon.Carbon'),
+                ('chalice2silver', 'viper.chalice2sil.Program'),
+                ]
+        for script_name, cls in configurations:
+            script_path = path.join(self.bin_dir, script_name)
+            with open(script_path, 'w') as fp:
+                fp.write('#!/bin/bash\n')
+                fp.write('JARS=($(ls /usr/lib/viper/*.jar))\n')
+                fp.write('CP=$(printf ":%s" "${JARS[@]}")\n')
+                fp.write('CP=${CP:1}\n')
+                fp.write('export Z3_EXE=/usr/bin/viper-z3\n')
+                fp.write('export BOOGIE_EXE=/usr/bin/boogie\n')
+                fp.write('java -Xss30M -cp "$CP" {0} $@\n'.format(cls))
 
 
 class BoogieDebianPackage(DebianPackage):
@@ -290,6 +341,18 @@ def create_package_list():
             'Microsoft Research.'
             )
         ))
+    debian_packages.append(ViperDebianPackage(
+        debian_packages,
+        package=VIPER_PACKAGE,
+        package_revision=PACKAGE_REVISION,
+        architecture=ARCHITECTURE,
+        distribution_codename=DISTRIBUTION_CODENAME,
+        maintainer=MAINTAINER,
+        short_description=(
+            'A meta-package for installing Viper '
+            '(http://www.pm.inf.ethz.ch/research/viper.html).'
+            )
+        ))
     return debian_packages
 
 
@@ -305,7 +368,7 @@ def execute_scripts():
                 ('bash', script_name, api_key),
                 cwd=BUILD_DIR)
         if process.wait() != 0:
-            raise subprocess.CalledProcessError(script_name)
+            raise Exception(script_name)
     if api_key:
         run(BUILD_SCRIPT)
         run(REPOSITORY_SETUP_SCRIPT)
@@ -315,6 +378,8 @@ def execute_scripts():
 def main():
     """ Script entry point.
     """
+    global PACKAGE_REVISION
+    PACKAGE_REVISION = int(input('Debian revision number: '))
     debian_packages = create_package_list()
     create_package_structures(debian_packages)
     create_build_script(debian_packages)
