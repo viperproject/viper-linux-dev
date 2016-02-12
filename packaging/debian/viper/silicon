@@ -1,5 +1,0 @@
-#!/bin/bash
-
-java \
-  -cp /usr/lib/viper/viper.jar \
-  viper.silicon.SiliconRunner "$@"

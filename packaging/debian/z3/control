@@ -1,8 +1,0 @@
-Package: z3
-Version: 4.4.0
-Section: base
-Priority: extra
-Architecture: amd64
-Depends: libgomp1
-Maintainer: Vytautas Astrauskas <vastrauskas@gmail.com>
-Description: Z3 is a theorem prover from Microsoft Research.
