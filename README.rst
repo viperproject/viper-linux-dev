@@ -183,7 +183,7 @@ Open project: *Open* → ``/home/developer/source/silicon`` (or
 of Silicon) → *OK* → Select these items:
 
 +   Use auto-import
-+   Project SDK: *New…* → ``/usr/lib/jvm/java-7-oracle`` → *OK*
++   Project SDK: *New…* → ``/usr/lib/jvm/java-8-oracle`` → *OK*
 
 Press *OK*.
 
