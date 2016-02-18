@@ -34,6 +34,7 @@ build-standalone: $(SUBREPOS) workspace nailgun/ng
 	$(SBT_CHALICE2SILVER) assembly
 
 package:
+	$(SBT_CHALICE2SILVER) stage
 	bin/package
 
 ide: $(IDE_PREREQUISITES) workspace
