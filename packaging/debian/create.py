@@ -269,6 +269,7 @@ def create_upload_script(debian_packages):
             if package.package.omit:
                 continue
             fp.write(r'''
+sleep 5
 curl -X PUT \
      -T "{deb_path}" \
     "-u$USER:$API_KEY" \
