@@ -27,7 +27,7 @@ PACKAGES = [
         Package('com.github.scopt # scopt_2.11 # 3.2.0', LICENSES['MIT'], omit=True),
         Package('org.rogach # scallop_2.11 # 0.9.5', LICENSES['MIT'], 'https://github.com/scallop/scallop'),
         Package('com.google.guava # guava # 17.0', LICENSES['APACHE'], 'https://github.com/google/guava'),
-        Package('commons-io # commons-io # 2.4', LICENSES['APACHE'], omit=True),
+        Package('commons-io # commons-io # 2.4', LICENSES['APACHE'], 'https://commons.apache.org/proper/commons-io/source-repository.html'),
         Package('viper # silicon-common # 0.1-SNAPSHOT', LICENSES['MPL'], 'https://bitbucket.org/viperproject/silicon/'),
         Package('viper # silicon # 0.1-SNAPSHOT', (LICENSES['MPL'], LICENSES['Ms-PL']), 'https://bitbucket.org/viperproject/silicon/'),
         Package('viper # silver # 0.1-SNAPSHOT', LICENSES['MPL'], 'https://bitbucket.org/viperproject/silver/'),
