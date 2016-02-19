@@ -5,6 +5,7 @@ import shutil
 import datetime
 import json
 import subprocess
+import platform
 from glob import glob
 from os import path
 
@@ -14,6 +15,13 @@ from scripts.packages import (
         BOOGIE_PACKAGE,
         VIPER_PACKAGE,
         )
+
+
+def get_distribution_codename():
+    """ A helper function for getting distribution codename
+    """
+    distname, version, codename = platform.linux_distribution()
+    return codename
 
 
 ROOT_DIR = '/home/developer/source'
@@ -27,7 +35,7 @@ PACKAGE_REVISION = 1
 #MAINTAINER = 'Viper Team <viper@inf.ethz.ch>'
 MAINTAINER = 'Vytautas Astrauskas <vastrauskas@gmail.com>'
 ARCHITECTURE = 'amd64'
-DISTRIBUTION_CODENAME = 'trusty'
+DISTRIBUTION_CODENAME = get_distribution_codename()
 
 
 class DebianPackage:
