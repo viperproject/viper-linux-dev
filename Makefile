@@ -33,9 +33,15 @@ nailgun/ng:
 build-standalone: $(SUBREPOS) workspace nailgun/ng
 	$(SBT_CHALICE2SILVER) assembly
 
-package:
+stage:
 	$(SBT_CHALICE2SILVER) stage
-	bin/package
+
+package_homebrew: stage
+	bin/package homebrew
+	cp workspace/package/homebrew/*.rb homebrew/
+
+package_debian: stage
+	bin/package debian
 
 ide: $(IDE_PREREQUISITES) workspace
 	$(IDE)

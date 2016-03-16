@@ -9,3 +9,9 @@ BUILD_DIR = path.join(ROOT_DIR, 'workspace', 'package')
 #MAINTAINER = 'Viper Team <viper@inf.ethz.ch>'
 MAINTAINER = 'Vytautas Astrauskas <vastrauskas@gmail.com>'
 BINTRAY_USERNAME = 'vakaras'
+
+TOOL_SHELL_SCRIPTS = [
+    ('silicon', 'viper.silicon.SiliconRunner'),
+    ('carbon', 'viper.carbon.Carbon'),
+    ('chalice2silver', 'viper.chalice2sil.Program'),
+    ]

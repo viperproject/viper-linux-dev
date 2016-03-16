@@ -2,7 +2,7 @@ import json
 
 
 from scripts import config
-from scripts.uploader import create_upload_script
+from scripts.uploader import create_repository_setup_script as cr
 
 
 def create_repository_setup_script(
@@ -29,7 +29,7 @@ def create_repository_setup_script(
         for package in packages
         if not package.package.omit
         ]
-    create_upload_script(
+    cr(
         repository_setup_script,
         repository_name,
         calls)

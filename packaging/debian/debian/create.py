@@ -3,14 +3,14 @@ from os import path
 
 from debian import config
 from debian import packages
+from scripts.create import (
+    create_repository_setup_script,
+    )
 from scripts.packages import (
     PACKAGES,
     Z3_PACKAGE,
     BOOGIE_PACKAGE,
     VIPER_PACKAGE,
-    )
-from scripts.create import (
-    create_repository_setup_script,
     )
 from scripts.uploader import (
     create_upload_script,
@@ -78,16 +78,16 @@ def create_package_list(package_revision):
         short_description=(
             'A meta-package for installing Viper '
             '(http://www.pm.inf.ethz.ch/research/viper.html).'
-            )
+            ),
         ))
     return debian_packages
 
 
-def create_package_structures(debian_packages):
+def create_package_structures(packages):
     """ Creates folders from which DEB files can be created.
     """
-    for debian_package in debian_packages:
-        debian_package.create_package_structure()
+    for package in packages:
+        package.create_package_structure()
 
 
 def create_build_script(debian_packages):
@@ -149,12 +149,12 @@ def create_debian_packages_and_scripts(package_revision):
     """ Creates debian package structures and build and upload scripts.
     """
 
-    debian_packages = create_package_list(package_revision)
-    create_package_structures(debian_packages)
+    packages = create_package_list(package_revision)
+    create_package_structures(packages)
     scripts = [
-        create_build_script(debian_packages),
-        create_debian_repository_setup_script(debian_packages),
-        create_debian_upload_script(debian_packages)
+        create_build_script(packages),
+        create_debian_repository_setup_script(packages),
+        create_debian_upload_script(packages)
         ]
     return [
         (script, config.BUILD_DIR)

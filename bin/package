@@ -5,4 +5,4 @@ source "$DIR/settings.sh"
 
 ${DOCKER_COMMAND} \
   "${DOCKER_IMAGE}" \
-  /home/developer/source/packaging/debian/create.py
+  /bin/bash -c "/home/developer/source/packaging/debian/create.py $1"

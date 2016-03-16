@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
+import sys
 import subprocess
 
 from debian.create import create_debian_packages_and_scripts
+from homebrew.create import create_homebrew_packages_and_scripts
 
 
 def execute_scripts(scripts):
@@ -23,14 +25,22 @@ def execute_scripts(scripts):
             run(script, path)
 
 
-def main():
+def main(argv):
     """ Script entry point.
     """
     package_revision = int(input('Revision number: '))
 
-    scripts = create_debian_packages_and_scripts(package_revision)
+    if argv[1] == 'debian':
+        scripts = create_debian_packages_and_scripts(
+                package_revision)
+    elif argv[1] == 'homebrew':
+        scripts = create_homebrew_packages_and_scripts(
+                package_revision)
+    else:
+        raise Exception('Unknown platform: {}'.format(argv[1]))
+
     execute_scripts(scripts)
 
 
 if __name__ == '__main__':
-    main()
+    main(sys.argv)
