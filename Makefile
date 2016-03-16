@@ -36,9 +36,12 @@ build-standalone: $(SUBREPOS) workspace nailgun/ng
 stage:
 	$(SBT_CHALICE2SILVER) stage
 
-package_homebrew: stage
+package_homebrew: stage homebrew
 	bin/package homebrew
 	cp workspace/package/homebrew/*.rb homebrew/
+
+homebrew:
+	git clone https://github.com/vakaras/homebrew-viper.git homebrew
 
 package_debian: stage
 	bin/package debian
