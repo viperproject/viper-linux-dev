@@ -4,12 +4,6 @@ from scripts.create import (
     create_repository_setup_script,
     )
 from scripts.create import PackageManager
-from scripts.packages import (
-    PACKAGES,
-    Z3_PACKAGE,
-    BOOGIE_PACKAGE,
-    VIPER_PACKAGE,
-    )
 from scripts.uploader import (
     create_upload_script,
     )

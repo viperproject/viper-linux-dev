@@ -4,7 +4,7 @@ import sys
 import subprocess
 
 from debian.create import create_debian_packages_and_scripts
-from homebrew.create import create_homebrew_packages_and_scripts
+from brew.create import create_homebrew_packages_and_scripts
 
 
 def execute_scripts(scripts):
