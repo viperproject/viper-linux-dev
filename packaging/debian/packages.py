@@ -33,7 +33,7 @@ class DebianPackage:
 
         # Configuration.
         self.full_version = "{0}-{1}".format(
-                package.version,
+                self.package_version,
                 package_revision,
                 )
         self.package_dir = path.join(
@@ -42,6 +42,10 @@ class DebianPackage:
         self.deb_path = path.join(
             config.BUILD_DIR, self.package_full_name + ".deb")
         self.deb_name = path.basename(self.deb_path)
+
+    @property
+    def package_version(self):
+        return self.package.version
 
     @property
     def package_name(self):
@@ -85,12 +89,17 @@ class JARDebianPackage(DebianPackage):
     """ A Debian package encapsulating JAR file.
     """
 
-    def __init__(self, jar_path, *args, **kwargs):
+    def __init__(self, jar_path, jar_version, *args, **kwargs):
+        self.jar_version = jar_version
         super(JARDebianPackage, self).__init__(*args, **kwargs)
         self.section = 'java'
         self.jar_path = jar_path
         self.jar_dir = path.join(self.package_dir, 'usr', 'lib', 'viper')
         self.depends = 'default-jre'
+
+    @property
+    def package_version(self):
+        return self.jar_version
 
     def _create_directories(self):
         os.makedirs(self.package_dir, exist_ok=True)
@@ -128,13 +137,13 @@ class ViperDebianPackage(DebianPackage):
     Also it contains shell scripts for invocation.
     """
 
-    def __init__(self, debian_packages, *args, **kwargs):
+    def __init__(self, jar_packages, binary_packages, *args, **kwargs):
         super(ViperDebianPackage, self).__init__(*args, **kwargs)
         self.section = 'base'
         self.bin_dir = path.join(self.package_dir, 'usr', 'bin')
         dependencies = [
                 package.package_name
-                for package in debian_packages
+                for package in (jar_packages + binary_packages)
                 ]
         dependencies.append('nailgun')
         self.depends = ', '.join(dependencies)

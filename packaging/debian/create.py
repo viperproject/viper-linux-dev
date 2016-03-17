@@ -1,11 +1,9 @@
-from glob import glob
-from os import path
-
 from debian import config
 from debian import packages
 from scripts.create import (
     create_repository_setup_script,
     )
+from scripts.create import PackageManager
 from scripts.packages import (
     PACKAGES,
     Z3_PACKAGE,
@@ -17,77 +15,34 @@ from scripts.uploader import (
     )
 
 
-def create_package_list(package_revision):
-    """ Creates a list of packages to be packaged.
-    """
-    debian_packages = []
-    for jar_path in glob(config.JARS):
-        file_name = path.basename(jar_path)
-        for package in PACKAGES:
-            if package.check(file_name):
-                if not package.omit:
-                    debian_package = packages.JARDebianPackage(
-                            jar_path=jar_path,
-                            package=package,
-                            package_revision=package_revision,
-                            architecture=config.ARCHITECTURE,
-                            distribution_codename=config.DISTRIBUTION_CODENAME,
-                            maintainer=config.MAINTAINER,
-                            short_description=(
-                                'A Debian package automatically generated '
-                                'from JAR “{0}” by using '
-                                'https://bitbucket.org/viperproject/'
-                                'viper-linux-dev/src/tip/packaging/'
-                                'debian/create.py script.'
-                                ).format(package.full_name),
-                            )
-                    debian_packages.append(debian_package)
-                break
-        else:
-            raise Exception('Could not find package information.')
-    debian_packages.append(packages.Z3DebianPackage(
-        package=Z3_PACKAGE,
-        package_revision=package_revision,
-        architecture=config.ARCHITECTURE,
-        distribution_codename=config.DISTRIBUTION_CODENAME,
-        maintainer=config.MAINTAINER,
-        short_description=(
-            'Z3 is a theorem prover from Microsoft Research. '
-            'This package contains a Z3 version that was tested '
-            'to work with Viper.'
-            )
-        ))
-    debian_packages.append(packages.BoogieDebianPackage(
-        package=BOOGIE_PACKAGE,
-        package_revision=package_revision,
-        architecture=config.ARCHITECTURE,
-        distribution_codename=config.DISTRIBUTION_CODENAME,
-        maintainer=config.MAINTAINER,
-        short_description=(
-            'Boogie is an itermediate verification language from '
-            'Microsoft Research.'
-            )
-        ))
-    debian_packages.append(packages.ViperDebianPackage(
-        debian_packages,
-        package=VIPER_PACKAGE,
-        package_revision=package_revision,
-        architecture=config.ARCHITECTURE,
-        distribution_codename=config.DISTRIBUTION_CODENAME,
-        maintainer=config.MAINTAINER,
-        short_description=(
-            'A meta-package for installing Viper '
-            '(http://www.pm.inf.ethz.ch/research/viper.html).'
-            ),
-        ))
-    return debian_packages
+class DebianPackageManager(PackageManager):
+
+    def __init__(self, package_revision):
+        super(DebianPackageManager, self).__init__()
+        self.common_parameters = {
+                'package_revision': package_revision,
+                'architecture': config.ARCHITECTURE,
+                'distribution_codename': config.DISTRIBUTION_CODENAME,
+                'maintainer': config.MAINTAINER,
+                }
+
+    def create_jar_package(self, **kwargs):
+        kwargs.update(self.common_parameters)
+        return packages.JARDebianPackage(**kwargs)
+
+    def create_z3_package(self, **kwargs):
+        kwargs.update(self.common_parameters)
+        return packages.Z3DebianPackage(**kwargs)
+
+    def create_boogie_package(self, **kwargs):
+        kwargs.update(self.common_parameters)
+        return packages.BoogieDebianPackage(**kwargs)
+
+    def create_viper_package(self, **kwargs):
+        kwargs.update(self.common_parameters)
+        return packages.ViperDebianPackage(**kwargs)
 
 
-def create_package_structures(packages):
-    """ Creates folders from which DEB files can be created.
-    """
-    for package in packages:
-        package.create_package_structure()
 
 
 def create_build_script(debian_packages):
@@ -109,7 +64,7 @@ def create_debian_repository_setup_script(debian_packages):
     create_repository_setup_script(
             debian_packages,
             config.REPOSITORY_SETUP_SCRIPT,
-            'deb'
+            config.REPOSITORY_NAME,
             )
     return config.REPOSITORY_SETUP_SCRIPT
 
@@ -123,7 +78,7 @@ def create_debian_upload_script(packages):
           ('-X', 'PUT'),
           ('-T', package.deb_path),
           ("$URL", (
-            '$URL/{package_name}/{version}/pool/main/m/'
+            '{package_name}/{version}/pool/main/m/'
             '{package_name}/{deb_name};deb_distribution={distribution};'
             'deb_component=main;deb_architecture={architecture};'
             'publish=1;override=1').format(
@@ -140,7 +95,7 @@ def create_debian_upload_script(packages):
         ]
     create_upload_script(
         config.UPLOAD_SCRIPT,
-        'deb',
+        config.REPOSITORY_NAME,
         calls)
     return config.UPLOAD_SCRIPT
 
@@ -149,8 +104,10 @@ def create_debian_packages_and_scripts(package_revision):
     """ Creates debian package structures and build and upload scripts.
     """
 
-    packages = create_package_list(package_revision)
-    create_package_structures(packages)
+    manager = DebianPackageManager(package_revision)
+    manager.create_package_list()
+    manager.create_package_structures()
+    packages = manager.packages
     scripts = [
         create_build_script(packages),
         create_debian_repository_setup_script(packages),

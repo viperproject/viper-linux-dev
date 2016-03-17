@@ -11,3 +11,4 @@ REPOSITORY_SETUP_SCRIPT = path.join(
 UPLOAD_SCRIPT = path.join(BUILD_DIR, 'debian_upload')
 ARCHITECTURE = 'amd64'
 DISTRIBUTION_CODENAME = get_distribution_codename()
+REPOSITORY_NAME = 'deb'
