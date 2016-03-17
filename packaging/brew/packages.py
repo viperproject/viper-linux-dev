@@ -1,8 +1,10 @@
+import os
 import subprocess
 
 from os import path
 
 from brew import config
+from scripts.sheller import create_tool_start_script
 
 
 class HomebrewFormula:
@@ -131,6 +133,10 @@ class HomebrewPackage:
     def file_name(self):
         raise NotImplementedError()
 
+    @property
+    def file_path(self):
+        raise NotImplementedError()
+
 
 class JARHomebrewPackage(HomebrewPackage):
     """ A Homebrew package encapsulating JAR file.
@@ -149,6 +155,10 @@ class JARHomebrewPackage(HomebrewPackage):
     def file_name(self):
         return self.package_full_name + '.jar'
 
+    @property
+    def file_path(self):
+        return self.jar_path
+
     def get_sha256(self):
         output = subprocess.check_output(['sha256sum', self.jar_path])
         return output.decode('utf-8').split()[0]
@@ -162,6 +172,7 @@ class Z3HomebrewPackage(HomebrewPackage):
         """ Creates files needed to create a package.
         """
 
+        os.makedirs(config.BUILD_DIR, exist_ok=True)
         formula = HomebrewFormula(
             name='viper-z3', 
             directory=config.BUILD_DIR,
@@ -186,6 +197,7 @@ class BoogieHomebrewPackage(HomebrewPackage):
         """ Creates files needed to create a package.
         """
 
+        os.makedirs(config.BUILD_DIR, exist_ok=True)
         formula = HomebrewFormula(
             name='boogie', 
             directory=config.BUILD_DIR,
@@ -216,6 +228,7 @@ class ViperHomebrewPackage(HomebrewPackage):
         super(ViperHomebrewPackage, self).__init__(*args, **kwargs)
         self.jar_packages = jar_packages
         self.binary_packages = binary_packages
+        self.package_dir = path.join(config.BUILD_DIR, self.package_full_name)
 
     @property
     def package_name(self):
@@ -225,11 +238,26 @@ class ViperHomebrewPackage(HomebrewPackage):
     def file_name(self):
         return self.package_full_name + '.tar.gz'
 
+    @property
+    def file_path(self):
+        return path.join(config.BUILD_DIR, self.file_name)
+
     def create_package_structure(self):
         """ Creates files needed to create a package.
         """
+        os.makedirs(self.package_dir, exist_ok=True)
         self.create_formula()
-        #self.create_archive()
+        self.create_archive()
+
+    def create_archive(self):
+        script_names = []
+        for script_name, cls in config.TOOL_SHELL_SCRIPTS:
+            script_path = path.join(self.package_dir, script_name)
+            create_tool_start_script(script_path, cls)
+            script_names.append(script_name)
+        subprocess.check_call(
+            ['tar', '-zcvf', self.file_path] + script_names,
+            cwd=self.package_dir)
 
     def create_formula(self):
         """ Creates Homebrew formula.
