@@ -37,8 +37,6 @@ class DebianPackageManager(PackageManager):
         return packages.ViperDebianPackage(**kwargs)
 
 
-
-
 def create_build_script(debian_packages):
     """ Creates a shell script that builds DEB packages.
     """
