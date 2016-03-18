@@ -219,23 +219,35 @@ If you want to get into interactive shell, use:
 
   make shell
 
-------------------------
-Building Debian Packages
-------------------------
+-----------------
+Building Packages
+-----------------
 
-You can create Debian packages (``*.deb`` files) for Z3, Boogie and
-Viper by executing:
+Debian
+======
 
-.. code-block:: bash
-
-  make package
-
-Packages are dropped to ``workspace/debian/`` directory. You can install
-them by using ``dpkg -i`` command. For example:
+To create Debian packages and upload them to the Bintray repository,
+type:
 
 .. code-block:: bash
 
-  sudo dpkg -i z3_4.4.0-1.deb
+    make package_debian
 
-**Note**: this will **not** install any dependencies automatically. You
-need to install Java (for Viper) and Mono (for Boogie) manually.
+Homebrew
+========
+
+Build files and upload to the Bintray repository:
+
+.. code-block:: bash
+
+    make package_homebrew
+
+Update the Homebrew formula:
+
+.. code-block:: bash
+
+    cd homebrew
+    cp ../workspace/package/homebrew/*.rb .
+    git add *.rb
+    git commmit -m "New version."
+    git push
