@@ -205,7 +205,6 @@ class BoogieHomebrewPackage(HomebrewPackage):
             url="https://github.com/boogie-org/boogie.git",
             version="2.3",
             )
-        formula.add_dependency('mono')
         formula.add_install_block(r'''
     system "curl", "-L", "-o", "nuget.exe", "https://nuget.org/nuget.exe"
     system "mono", "nuget.exe", "restore", "./Source/Boogie.sln"
