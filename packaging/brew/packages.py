@@ -210,6 +210,7 @@ class BoogieHomebrewPackage(HomebrewPackage):
     system "/usr/local/bin/mono", "nuget.exe", "restore", "./Source/Boogie.sln"
     system "/usr/local/bin/xbuild", "Source/Boogie.sln"
     system "mkdir", "#{prefix}/Binaries"
+    system "ln", "-s", "/usr/local/bin/z3", "#{prefix}/z3.exe"
     prefix.install Dir["Binaries/*"]
     system "echo '#!/bin/sh'$'\\n''mono\ #{prefix}/Boogie.exe\ \"$@\"'$'\\n' > boogie"
     system "chmod", "+x", "boogie"
