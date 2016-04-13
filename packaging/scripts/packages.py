@@ -24,7 +24,7 @@ PACKAGES = [
         Package('org.slf4s # slf4s-api_2.11 # 1.7.12', LICENSES['MIT'], 'https://github.com/mattroberts297/slf4s'),
         Package('org.slf4j # slf4j-api # 1.7.12', LICENSES['MIT'], 'https://github.com/qos-ch/slf4j'),
         Package('org.slf4j # slf4j-log4j12 # 1.7.12', LICENSES['MIT'], 'https://github.com/qos-ch/slf4j'),
-        Package('com.github.scopt # scopt_2.11 # 3.2.0', LICENSES['MIT'], omit=True),
+        Package('com.github.scopt # scopt_2.11 # 3.2.0', LICENSES['MIT'], 'https://github.com/scopt/scopt'),
         Package('org.rogach # scallop_2.11 # 0.9.5', LICENSES['MIT'], 'https://github.com/scallop/scallop'),
         Package('com.google.guava # guava # 17.0', LICENSES['APACHE'], 'https://github.com/google/guava'),
         Package('commons-io # commons-io # 2.4', LICENSES['APACHE'], 'https://commons.apache.org/proper/commons-io/source-repository.html'),
