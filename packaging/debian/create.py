@@ -61,7 +61,7 @@ def create_debian_repository_setup_script(debian_packages):
     return config.REPOSITORY_SETUP_SCRIPT
 
 
-def create_debian_upload_script(packages):
+def create_debian_upload_script(packages, only_snapshots):
     """ Creates a shell script that uploads DEB files to BinTray
     repository.
     """
@@ -83,7 +83,8 @@ def create_debian_upload_script(packages):
             )
           )
         for package in packages
-        if not package.package.omit
+        if not package.package.omit and
+           (package.package.is_snapshot or not only_snapshots)
         ]
     create_upload_script(
         config.UPLOAD_SCRIPT,
@@ -92,7 +93,7 @@ def create_debian_upload_script(packages):
     return config.UPLOAD_SCRIPT
 
 
-def create_debian_packages_and_scripts(package_revision):
+def create_debian_packages_and_scripts(package_revision, only_snapshots):
     """ Creates debian package structures and build and upload scripts.
     """
 
@@ -103,7 +104,7 @@ def create_debian_packages_and_scripts(package_revision):
     scripts = [
         create_build_script(packages),
         create_debian_repository_setup_script(packages),
-        create_debian_upload_script(packages)
+        create_debian_upload_script(packages, only_snapshots)
         ]
     return [
         (script, config.BUILD_DIR)

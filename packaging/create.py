@@ -32,7 +32,8 @@ def main(argv):
 
     if argv[1] == 'debian':
         scripts = create_debian_packages_and_scripts(
-                package_revision)
+                package_revision,
+                only_snapshots=False)
     elif argv[1] == 'homebrew':
         scripts = create_homebrew_packages_and_scripts(
                 package_revision)

@@ -36,6 +36,7 @@ class Package:
         except TypeError:
             self.licenses = licenses,
         self.prefix, self.name, self.version = name.split(' # ')
+        self.is_snapshot = 'SNAPSHOT' in self.version
         self.version = self.version.replace('-SNAPSHOT', '.0')
         if self.prefix:
             self.long_name = '{}.{}'.format(self.prefix, self.name)
