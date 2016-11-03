@@ -4,7 +4,7 @@
 from scripts.utils import Package
 from scripts.licenses import LICENSES
 
-Z3_PACKAGE = Package(' # Z3 # 4.4.0', LICENSES['MIT'], 'https://github.com/Z3Prover/z3')
+Z3_PACKAGE = Package(' # z3 # 4.4.0', LICENSES['MIT'], 'https://github.com/Z3Prover/z3')
 BOOGIE_PACKAGE = Package(' # boogie # 2015.06.10', LICENSES['Ms-PL'], 'https://github.com/boogie-org/boogie')
 VIPER_PACKAGE = Package(' # viper # 0.1', LICENSES['MPL'], 'https://bitbucket.org/viperproject/viper-linux-dev')
 
