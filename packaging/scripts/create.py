@@ -67,7 +67,9 @@ class PackageManager:
                         self.jar_packages.append(package)
                     break
             else:
-                raise Exception('Could not find package information.')
+                raise Exception(
+                    'Could not find package information. jar_path={}'.format(
+                        jar_path))
 
     def create_binary_package_list(self):
         self.binary_packages.extend([
