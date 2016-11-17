@@ -17,7 +17,7 @@ PACKAGES = [
         Package('org.scala-lang.modules # scala-parser-combinators_2.11 # 1.0.2', LICENSES['BSD-scala'], 'https://github.com/scala/scala-parser-combinators'),
         Package('org.scala-lang.modules # scala-xml_2.11 # 1.0.2', LICENSES['BSD-scala'], 'https://github.com/scala/scala-xml'),
         Package('jline # jline # 2.12', LICENSES['BSD'], omit=True),
-        Package('org.jgrapht # jgrapht-core # 0.9.0', LICENSES['LGPL2.1'], 'https://github.com/jgrapht/jgrapht'),
+        Package('org.jgrapht # jgrapht-core # 0.9.0', LICENSES['EPL'], 'https://github.com/jgrapht/jgrapht'),
         Package('com.googlecode.kiama # kiama_2.11 # 1.8.0', LICENSES['LGPL3.0'], 'https://bitbucket.org/inkytonik/kiama'),
         Package('org.bitbucket.inkytonik.dsinfo # dsinfo_2.11 # 0.4.0', LICENSES['LGPL3.0'], omit=True),
         Package('org.bitbucket.inkytonik.dsprofile # dsprofile_2.11 # 0.4.0', LICENSES['LGPL3.0'], omit=True),

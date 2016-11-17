@@ -49,5 +49,10 @@ LICENSES = {
         'MS-PL',
         'Microsoft Public License',
         'http://opensource.org/licenses/ms-pl'
-        )
+        ),
+    'EPL': License(
+        'EPL',
+        'Eclipse Public License',
+        'http://www.eclipse.org/org/documents/epl-v10.php'
+        ),
     }
