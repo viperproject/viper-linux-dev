@@ -18,10 +18,10 @@ Quick Start
 
 1.  As a first step, please follow the instructions in the subsection
     `Environment`_ to set up the environment.
-2.  If you want to use Viper tools as stand-alone commands, or if you
+2.  **FIXME:** If you want to use Viper tools as stand-alone commands, or if you
     want to have Silver and Chalice support in your text editor, please
     follow the steps in the subsection `Using Viper`_.
-3.  If you want to use IDE for Viper development, please follow the
+3.  **FIXME:** If you want to use IDE for Viper development, please follow the
     steps in the subsection `Developing Viper`_.
 
 -----------
@@ -41,26 +41,19 @@ Build Docker image (**note**: this command uses ``sudo`` to get root access):
 
   make build_image
 
-**Note:** Dockerfile assumes that your user id is 1000 (default for main
-user in most Linux distributions). If it is different, you have to
-manually update the Dockerfile and rebuild the image.
-
-Run tests (**note**: this command uses ``sudo`` to get root access):
+Start container (**note**: this command uses ``sudo`` to get root access):
 
 .. code-block:: bash
 
-  make test
+  make start_server
 
-This command runs Silicon, Carbon and Chalice2Silver test suites. If you
-need to run the test suite regularly and entering ``sudo`` password each
-time annoys you, you can start a shell inside a container and invoke
-``sbt`` directly:
+Connect to the container and run Chalice2Viper tests:
 
 .. code-block:: bash
 
-  make shell
+  make connect
   # If succeeded, now you are inside Docker container.
-  # To run Chalice2Silver tests, execute:
+  # To run Chalice2Viper tests, execute:
   cd source/chalice2silver
   sbt test
 
