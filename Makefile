@@ -14,6 +14,22 @@ SUBREPOS=docker-viper silicon carbon silver chalice2silver
 
 test: test_silicon test_carbon test_chalice2silver
 
+.ssh: | workspace
+	mkdir .ssh
+	ssh-keygen -t rsa -N "" -f .ssh/developer.key
+	rm -rf workspace/.ssh
+	mkdir workspace/.ssh
+	chmod 700 workspace/.ssh/
+	cp .ssh/developer.key.pub workspace/.ssh/authorized_keys
+	chmod 600 workspace/.ssh/authorized_keys
+
+start_server: .ssh
+	bin/start-server
+
+PORT=$(shell cat workspace/.port)
+connect: .ssh workspace/.port
+	ssh developer@localhost -p ${PORT} -i .ssh/developer.key
+
 workspace:
 	mkdir -p workspace
 

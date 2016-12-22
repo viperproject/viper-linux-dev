@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Start docker container with the SSH server on it.
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/settings.sh"
+
+${DOCKER_COMMAND_DETTACHED} \
+    "${DOCKER_IMAGE}" \
+    /usr/local/bin/initialize
+
+HOST=$(${DOCKER_BIN} port viper 22)
+PORT=${HOST##*:}
+echo $PORT >> "${WORKSPACE_DIR}/.port"
