@@ -36,7 +36,7 @@ start_server: .ssh
 
 PORT=$(shell cat workspace/.port)
 connect: .ssh workspace/.port workspace/.config/fish/config.fish
-	ssh developer@localhost -p ${PORT} -i .ssh/developer.key
+	ssh developer@localhost -p ${PORT} -i .ssh/developer.key -X
 
 workspace:
 	mkdir -p workspace
