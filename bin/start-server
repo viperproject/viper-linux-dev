@@ -11,4 +11,4 @@ ${DOCKER_COMMAND_DETTACHED} \
 
 HOST=$(${DOCKER_BIN} port viper 22)
 PORT=${HOST##*:}
-echo $PORT >> "${WORKSPACE_DIR}/.port"
+echo $PORT > "${WORKSPACE_DIR}/.port"
