@@ -32,15 +32,6 @@ Clone repository and ``cd`` into it:
   hg clone https://bitbucket.org/viperproject/viper-linux-dev
   cd viper-linux-dev
 
-.. note::
-
-    The current Chalice2Viper version is outdated and does not compile.
-    Until this is fixed, please use the version with obligations:
-
-    .. code-block:: bash
-
-        hg clone ssh://hg@bitbucket.org/vakaras/obligations-chalice2silver chalice2silver
-
 Build Docker image (**note**: this command uses ``sudo`` to get root access):
 
 .. code-block:: bash
@@ -59,8 +50,12 @@ Connect to the container and run Chalice2Viper tests:
 
   make connect
   # If succeeded, now you are inside Docker container.
-  # To run Chalice2Viper tests, execute:
-  cd source/chalice2silver
+  # To run Silicon tests, execute:
+  cd source/silicon
+  sbt test
+  # Similarly, to run Carbon tests, execute:
+  cd
+  cd source/carbon
   sbt test
 
 ----------------
