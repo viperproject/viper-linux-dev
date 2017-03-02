@@ -3,3 +3,4 @@ nailgun
 .cache
 ide
 homebrew
+.ssh
