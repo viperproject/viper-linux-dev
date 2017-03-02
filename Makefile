@@ -24,7 +24,8 @@ test: test_silicon test_carbon test_chalice2silver
 	chmod 600 workspace/.ssh/authorized_keys
 
 workspace/.config/fish/config.fish: | workspace
-	echo 'set -x JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8' >> workspace/.config/fish/config.fish
+	mkdir -p workspace/.config/fish
+	echo 'set -x JAVA_TOOL_OPTIONS -Dfile.encoding=UTF8' > workspace/.config/fish/config.fish
 	echo 'set -x LANG en_US.UTF-8' >> workspace/.config/fish/config.fish
 	echo 'set -x LANGUAGE en_US:en' >> workspace/.config/fish/config.fish
 	echo 'set -x LC_ALL en_US.UTF-8' >> workspace/.config/fish/config.fish

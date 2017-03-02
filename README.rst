@@ -18,10 +18,7 @@ Quick Start
 
 1.  As a first step, please follow the instructions in the subsection
     `Environment`_ to set up the environment.
-2.  **FIXME:** If you want to use Viper tools as stand-alone commands, or if you
-    want to have Silver and Chalice support in your text editor, please
-    follow the steps in the subsection `Using Viper`_.
-3.  **FIXME:** If you want to use IDE for Viper development, please follow the
+2.  If you want to use IDE for Viper development, please follow the
     steps in the subsection `Developing Viper`_.
 
 -----------
@@ -34,6 +31,15 @@ Clone repository and ``cd`` into it:
 
   hg clone https://bitbucket.org/viperproject/viper-linux-dev
   cd viper-linux-dev
+
+.. note::
+
+    The current Chalice2Viper version is outdated and does not compile.
+    Until this is fixed, please use the version with obligations:
+
+    .. code-block:: bash
+
+        hg clone ssh://hg@bitbucket.org/vakaras/obligations-chalice2silver chalice2silver
 
 Build Docker image (**note**: this command uses ``sudo`` to get root access):
 
@@ -57,103 +63,6 @@ Connect to the container and run Chalice2Viper tests:
   cd source/chalice2silver
   sbt test
 
------------
-Using Viper
------------
-
-Build packages by using this command (in addition it requires ``gcc``
-and ``git`` to be installed):
-
-.. code-block:: bash
-
-  make build-standalone
-
-and add ``bin`` to your ``PATH``.
-
-**Note:** You need to rebuild packages each time you update sources.
-
-Now you should be able to use Silicon and Carbon from the command line:
-
-.. code-block:: bash
-
-  silicon test.sil
-
-**Note:** these Bash scripts under the hood start the Docker container
-with `Nailgun <http://www.martiansoftware.com/nailgun/index.html>`_
-server. If the server is too slow to start, the first execution of the
-script might fail.
-
-You can start the server manually by executing:
-
-.. code-block:: bash
-
-  nailgun-server
-
-You can avoid automatically starting server by passing
-``--assume-server-running`` flag:
-
-.. code-block:: bash
-
-  silicon --assume-server-running test.sil
-
-Sublime Text 3
---------------
-
-Requirements:
-
-1.  `Sublime Text 3 <https://www.sublimetext.com/3>`_.
-2.  `Package Control <https://packagecontrol.io/installation>`_.
-3.  `SublimeLinter 3 <http://www.sublimelinter.com/>`_.
-
-Installation:
-
-1.  Start editor.
-2.  Open the Command Palette (``ctrl+shift+p`` on Linux).
-3.  Execute ``Package Control: Add Repository`` and
-    enter ``https://github.com/vakaras/Sublime-Silver`` to the input
-    field.
-4.  Open the Command Palette → ``Package Control: Install Package``
-    → ``Sublime-Silver``.
-5.  Open the Command Palette → ``Package Control: Add Repository`` →
-    ``https://github.com/vakaras/SublimeLinter-contrib-silicon``.
-6.  Open the Command Palette → ``Package Control: Install Package``
-    → ``SublimeLinter-contrib-silicon``.
-
-Usage:
-
-1.  Start Silicon as Nailgun server:
-
-  .. code-block:: bash
-
-    nailgun-server
-
-2.  Start (or restart, if already started) editor.
-3.  Open a file with ``.sil`` extension.
-
-VIM
----
-
-Requirements:
-
-1.  Package manager like `Pathogen
-    <http://www.vim.org/scripts/script.php?script_id=2332>`_
-2.  `Syntastic <https://github.com/scrooloose/syntastic>`_
-
-Installation:
-
-1.  Install ``https://github.com/vakaras/vim-silver`` via
-    your favorite package manager.
-
-Usage:
-
-1.  Start Silicon as Nailgun server:
-
-  .. code-block:: bash
-
-    nailgun-server
-
-2.  Open a file with ``.sil`` extension.
-
 ----------------
 Developing Viper
 ----------------
@@ -162,11 +71,12 @@ Docker image has a
 `IntelliJ IDEA Community Edition <https://www.jetbrains.com/idea/>`_
 installed, which you can use for developing Viper.
 
-Start IntelliJ IDEA:
+Connect to container and start IntelliJ IDEA:
 
 .. code-block:: bash
 
-  make ide
+  make connect
+  idea
 
 Follow the instructions of the IntelliJ IDEA setup wizard. On step
 “Featured plugins”, install Scala plugin.
@@ -201,16 +111,6 @@ ignore this error.
 
 Tips
 =====
-
------------------
-Interactive Shell
------------------
-
-If you want to get into interactive shell, use:
-
-.. code-block:: bash
-
-  make shell
 
 -----------------
 Building Packages
