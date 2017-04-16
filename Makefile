@@ -32,7 +32,7 @@ workspace/.config/fish/config.fish: | workspace
 	echo 'set -x Z3_EXE /usr/bin/z3' >> workspace/.config/fish/config.fish
 	echo 'set -x BOOGIE_EXE /usr/bin/boogie' >> workspace/.config/fish/config.fish
 
-start_server: .ssh
+start_server: .ssh | $(SUBREPOS)
 	bin/start-server
 
 PORT=$(shell cat workspace/.port)
