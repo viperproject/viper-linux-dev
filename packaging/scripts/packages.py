@@ -30,6 +30,7 @@ PACKAGES = [
         Package('com.lihaoyi # fastparse # 0.3.7', LICENSES['MIT'], 'https://github.com/lihaoyi/fastparse'),
         Package('com.lihaoyi # sourcecode # 0.1.1', LICENSES['MIT'], 'https://github.com/lihaoyi/sourcecode'),
         Package('commons-io # commons-io # 2.4', LICENSES['APACHE'], 'https://commons.apache.org/proper/commons-io/source-repository.html'),
+        Package('org.apache.commons # commons-pool2 # 2.4', LICENSES['APACHE'], 'https://commons.apache.org/proper/commons-pool/source-repository.html'),
         Package('viper # silicon-common # 0.1-SNAPSHOT', LICENSES['MPL'], 'https://bitbucket.org/viperproject/silicon/'),
         Package('viper # silicon # 0.1-SNAPSHOT', (LICENSES['MPL'], LICENSES['Ms-PL']), 'https://bitbucket.org/viperproject/silicon/'),
         Package('viper # silver # 0.1-SNAPSHOT', LICENSES['MPL'], 'https://bitbucket.org/viperproject/silver/'),

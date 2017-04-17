@@ -61,6 +61,20 @@ def create_debian_repository_setup_script(debian_packages):
     return config.REPOSITORY_SETUP_SCRIPT
 
 
+def create_copy_script(packages):
+    """ Creates a shell script that copies DEB files to the specified
+    directory.
+    """
+    with open(config.COPY_SCRIPT, 'w') as fp:
+        fp.write('#!/bin/bash\n')
+        fp.write('set -x\n')
+        fp.write('set -v\n')
+        for package in packages:
+            if not package.package.omit:
+                fp.write('cp "{}" "$1"\n'.format(package.deb_path))
+    return config.COPY_SCRIPT
+
+
 def create_debian_upload_script(packages, only_snapshots):
     """ Creates a shell script that uploads DEB files to BinTray
     repository.
@@ -103,8 +117,9 @@ def create_debian_packages_and_scripts(package_revision, only_snapshots):
     packages = manager.packages
     scripts = [
         create_build_script(packages),
-        create_debian_repository_setup_script(packages),
-        create_debian_upload_script(packages, only_snapshots)
+        create_copy_script(packages),
+       #create_debian_repository_setup_script(packages),
+       #create_debian_upload_script(packages, only_snapshots)
         ]
     return [
         (script, config.BUILD_DIR)

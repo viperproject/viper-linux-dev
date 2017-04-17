@@ -114,12 +114,20 @@ Building Packages
 Debian
 ======
 
-To create Debian packages and upload them to the Bintray repository,
-type:
+To create debian packages:
 
 .. code-block:: bash
 
-    make package_debian
+    make connect
+    cd ~/source/silicon/
+    sbt stage
+    cd ~/source/carbon/
+    sbt stage
+    cd ~
+    # Assuming repo is a symlink to a folder served by HTTP server:
+    /home/developer/source/packaging/create.py debian /home/developer/repo
+    cd repo
+    ~/source/bin/debian_package
 
 Homebrew
 ========
