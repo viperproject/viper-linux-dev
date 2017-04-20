@@ -34,7 +34,7 @@ export DOCKER_BIN="docker_run_fun"
 export DOCKER_HOME=/home/developer
 export DOCKER_SOURCE_DIR="$DOCKER_HOME/source"
 export DOCKER_SBT="sbt"
-export DOCKER_IMAGE="vakaras/viper-build:0.0.16"
+export DOCKER_IMAGE="vakaras/viper-build:0.0.17"
 export DOCKER_DEFAULT_MOUNT="\
   -v ${WORKSPACE_DIR}:${DOCKER_HOME} \
   -v ${ROOT_DIR}:${DOCKER_SOURCE_DIR}"
