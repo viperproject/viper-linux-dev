@@ -71,9 +71,9 @@ class DebianPackage:
         """
 
     def _create_meta_data(self):
-        with open(path.join(self.meta_dir, 'control'), 'w') as fp:
+        with open(path.join(self.meta_dir, 'control'), 'wb') as fp:
             def write(field, value):
-                fp.write('{0}: {1}\n'.format(field, value))
+                fp.write('{0}: {1}\n'.format(field, value).encode('utf-8'))
             write('Package', self.package_name)
             write('Version', self.full_version)
             write('Section', self.section)
