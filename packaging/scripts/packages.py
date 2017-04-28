@@ -10,6 +10,7 @@ VIPER_PACKAGE = Package(' # viper # 0.1', LICENSES['MPL'], 'https://bitbucket.or
 
 PACKAGES = [
         Package('com.google.code.findbugs # jsr305 # 2.0.3', LICENSES['LGPL2.1'], 'https://github.com/findbugsproject/findbugs/', omit=True),
+        Package('com.typesafe.scala-logging # scala-logging # 3.5.0"', LICENSES['APACHE'], 'https://github.com/typesafehub/scala-logging'),
         Package('log4j # log4j # 1.2.17', LICENSES['APACHE'], 'https://git-wip-us.apache.org/repos/asf?p=logging-log4j2.git;a=summary'),
         Package('ch.qos.logback # logback-classic # 1.1.7', LICENSES['EPL'], 'https://github.com/qos-ch/logback'),
         Package('ch.qos.logback # logback-core # 1.1.7', LICENSES['EPL'], 'https://github.com/qos-ch/logback'),
