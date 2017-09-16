@@ -39,7 +39,7 @@ export DOCKER_DEFAULT_MOUNT="\
   -v ${WORKSPACE_DIR}:${DOCKER_HOME} \
   -v ${ROOT_DIR}:${DOCKER_SOURCE_DIR}"
 export DOCKER_COMMAND="${DOCKER_BIN} run --rm -P --name viper -ti ${DOCKER_DEFAULT_MOUNT}"
-export DOCKER_COMMAND_DETTACHED="${DOCKER_BIN} run -d -P --name viper ${DOCKER_DEFAULT_MOUNT}"
+export DOCKER_COMMAND_DETTACHED="${DOCKER_BIN} run -d --rm -P --name viper ${DOCKER_DEFAULT_MOUNT}"
 export DOCKER_NAILGUN_SERVER_NAME="viper-nailgun-server"
 export HOST_SILVER_FILE_PATH="${WORKSPACE_DIR}/program.sil"
 export DOCKER_SILVER_FILE_PATH="${DOCKER_HOME}/program.sil"
