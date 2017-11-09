@@ -37,7 +37,7 @@ start_server: .ssh | $(SUBREPOS)
 
 PORT=$(shell cat workspace/.port)
 connect: .ssh workspace/.port workspace/.config/fish/config.fish
-	ssh developer@localhost -p ${PORT} -i .ssh/developer.key -X
+	ssh developer@localhost -p ${PORT} -i .ssh/developer.key -Y
 
 workspace:
 	mkdir -p workspace
