@@ -3,12 +3,14 @@ SILICON_HG_URL=https://bitbucket.org/viperproject/silicon
 CARBON_HG_URL=https://bitbucket.org/viperproject/carbon
 SILVER_HG_URL=https://bitbucket.org/viperproject/silver
 CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
+ARP_PLUGIN_URL=https://bitbucket.org/viperproject/arp-plugin
+ARP_PLUGIN_TEST_URL=https://bitbucket.org/viperproject/arp-plugin-test
 SBT_SILICON=bin/sbt-silicon
 SBT_CARBON=bin/sbt-carbon
 SBT_CHALICE2SILVER=bin/sbt-chalice2silver
 IDE=bin/ide
 IDE_PREREQUISITES=$(SUBREPOS)
-SUBREPOS=docker-viper silicon carbon silver chalice2silver
+SUBREPOS=docker-viper silicon carbon silver chalice2silver arp_plugin arp_plugin_test
 
 .PHONY: docs
 
@@ -100,6 +102,12 @@ silver:
 
 chalice2silver:
 	hg clone $(CHALICE2SILVER_HG_URL) chalice2silver
+
+arp_plugin:
+	hg clone $(ARP_PLUGIN_URL) arp_plugin
+
+arp_plugin_test:
+	hg clone $(ARP_PLUGIN_TEST_URL) arp_plugin_test
 
 clean: clean-workspace clean-silicon clean-carbon clean-silicon-common clean-silver
 	rm -rf .cache
