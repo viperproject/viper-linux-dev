@@ -5,12 +5,13 @@ SILVER_HG_URL=https://bitbucket.org/viperproject/silver
 CHALICE2SILVER_HG_URL=https://bitbucket.org/viperproject/chalice2silver
 ARP_PLUGIN_URL=https://bitbucket.org/viperproject/arp-plugin
 ARP_PLUGIN_TEST_URL=https://bitbucket.org/viperproject/arp-plugin-test
+VIPER_SERVER_HG_URL=https://bitbucket.org/viperproject/viperserver
 SBT_SILICON=bin/sbt-silicon
 SBT_CARBON=bin/sbt-carbon
 SBT_CHALICE2SILVER=bin/sbt-chalice2silver
 IDE=bin/ide
 IDE_PREREQUISITES=$(SUBREPOS)
-SUBREPOS=docker-viper silicon carbon silver chalice2silver arp-plugin arp-plugin-test
+SUBREPOS=docker-viper silicon carbon silver chalice2silver viperserver arp-plugin arp-plugin-test
 
 .PHONY: docs
 
@@ -101,6 +102,12 @@ carbon:
 
 silver:
 	hg clone $(SILVER_HG_URL) silver
+
+viperserver:
+	hg clone $(VIPER_SERVER_HG_URL) viperserver
+	cd viperserver && ln -s ../silver
+	cd viperserver && ln -s ../silicon
+	cd viperserver && ln -s ../carbon
 
 chalice2silver:
 	hg clone $(CHALICE2SILVER_HG_URL) chalice2silver
