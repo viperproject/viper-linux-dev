@@ -5,6 +5,11 @@ from scripts.utils import License
 
 
 LICENSES = {
+    'CC0': License(
+        'Public Domain (CC0)',
+        'Public Domain (CC0)',
+        'http://creativecommons.org/publicdomain/zero/1.0/',
+        ),
     'APACHE': License(
         'Apache-2.0',
         'The Apache Software License, Version 2.0',
