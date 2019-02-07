@@ -93,9 +93,11 @@ docker-viper:
 
 silicon:
 	hg clone $(SILICON_HG_URL) silicon
+	cd silicon && ln -s ../silver
 
 carbon:
 	hg clone $(CARBON_HG_URL) carbon
+	cd carbon && ln -s ../silver
 
 silver:
 	hg clone $(SILVER_HG_URL) silver
