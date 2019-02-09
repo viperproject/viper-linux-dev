@@ -38,7 +38,9 @@ class PackageManager:
     def detect_jar_version(self, file_name):
         version = file_name[:-4]
         version = version.replace('-SNAPSHOT', '')
-        version = version.split('-')[-1]
+        for part in reversed(version.split('-')):
+            if part[0].isdigit():
+                version = part
         return version
 
     def create_jar_package_list(self):
