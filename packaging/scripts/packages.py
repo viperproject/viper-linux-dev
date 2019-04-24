@@ -39,6 +39,7 @@ PACKAGES = [
         Package('com.google.guava # listenablefuture # 9999.0-empty-to-avoid-conflict-with-guava', LICENSES['APACHE'], 'https://github.com/google/guava'),
         Package('com.google.errorprone # error_prone_annotations # 2.2.0', LICENSES['APACHE'], 'https://github.com/google/error-prone'),
         Package('com.google.j2objc # j2objc-annotations # 1.1', LICENSES['APACHE'], 'https://github.com/google/j2objc'),
+        Package(' # Alloy-5.0.0.1 # 5.0.0.1', LICENSES['APACHE'], 'https://github.com/AlloyTools/org.alloytools.alloy'),
 
         Package('org.codehaus.mojo # animal-sniffer-annotations # 1.17', LICENSES['MIT'], 'https://github.com/mojohaus/animal-sniffer/'),
         Package('com.lihaoyi # fastparse # 0.3.7', LICENSES['MIT'], 'https://github.com/lihaoyi/fastparse'),
